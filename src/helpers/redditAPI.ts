@@ -4,6 +4,7 @@
 
 import {ModActionType, RedditAPIClient} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "./date.js";
+import {TID} from "@devvit/shared-types/tid.js";
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
@@ -17,7 +18,7 @@ import {getTimeDeltaInSeconds} from "./date.js";
  * @param limit The number of actions to fetch. Defaults to 100, the maximum allowed in a single request.
  * @returns A boolean indicating whether the action has been performed.
  */
-export async function hasPerformedAction (reddit: RedditAPIClient, subredditName: string, actionTargetId: string, actionType: ModActionType, moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
+export async function hasPerformedAction (reddit: RedditAPIClient, subredditName: string, actionTargetId: TID, actionType: ModActionType, moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
     const modLog = await reddit.getModerationLog({subredditName, moderatorUsernames, type: actionType, limit, pageSize: 100}).all().catch(e => {
         console.error(`Failed to fetch ${actionType} log for ${subredditName} by ${moderatorUsernames?.join(",") ?? ""}`, e);
         return [];
@@ -46,7 +47,7 @@ export async function hasPerformedAction (reddit: RedditAPIClient, subredditName
  * @param limit The number of actions to fetch. Defaults to 100, the maximum allowed in a single request.
  * @returns A boolean indicating whether any of actions have been performed.
  */
-export async function hasPerformedActions (reddit: RedditAPIClient, subredditName: string, actionTargetId: string, actionTypes: ModActionType[], moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
+export async function hasPerformedActions (reddit: RedditAPIClient, subredditName: string, actionTargetId: TID, actionTypes: ModActionType[], moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
     const actionChecks = actionTypes.map(actionType => hasPerformedAction(reddit, subredditName, actionTargetId, actionType, moderatorUsernames, includeParent, cutoffSeconds, limit));
     const results = await Promise.all(actionChecks);
     return results.includes(true);
@@ -74,4 +75,16 @@ export async function isModerator (reddit: RedditAPIClient, subredditName: strin
 export async function isContributor (reddit: RedditAPIClient, subredditName: string, username: string): Promise<boolean> {
     const filteredContributorList = await reddit.getApprovedUsers({subredditName, username}).all();
     return filteredContributorList.length > 0;
+}
+
+/**
+ * This function simplifies the process of checking if a user is banned from a subreddit.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param subredditName The name of the subreddit as a string, without the prefix.
+ * @param username The username of the user as a string, without the prefix.
+ * @returns A boolean indicating whether the user is in the subreddit's approved users/contributors list.
+ */
+export async function isBanned (reddit: RedditAPIClient, subredditName: string, username: string): Promise<boolean> {
+    const filteredBanList = await reddit.getBannedUsers({subredditName, username}).all();
+    return filteredBanList.length > 0;
 }

@@ -7,6 +7,15 @@ import {formatInTimeZone} from "date-fns-tz";
 import * as locales from "date-fns/locale";
 
 /**
+ * This type is used to specify a custom date format for a placeholder.
+ */
+export type CustomDateformat = {
+    dateformat: string;
+    timezone: string;
+    locale: Locale;
+}
+
+/**
  *
  * @param datetime A Date() object.
  * @param timeformat The format string to use for formatting the time (see https://date-fns.org/docs/format).
@@ -15,9 +24,9 @@ import * as locales from "date-fns/locale";
  * @param defaultValue Value returned if something goes wrong, defaults to an empty string.
  * @returns A string containing the formatted time, or the default value if formatInTimeZone() throws an error.
  */
-export function safeFormatInTimeZone (datetime: Date, timeformat: string, timezone: string, locale: Locale, defaultValue = ""): string {
+export function safeFormatInTimeZone (datetime: Date, customDateformat: CustomDateformat, defaultValue = ""): string {
     try {
-        return formatInTimeZone(datetime, timezone, timeformat, {locale});
+        return formatInTimeZone(datetime, customDateformat.timezone, customDateformat.dateformat, {locale: customDateformat.locale});
     } catch (e) {
         return defaultValue;
     }
