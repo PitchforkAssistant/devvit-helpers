@@ -2,9 +2,9 @@
  * @file This file contains helper functions to simplify common tasks that involving Devvit's RedditAPIClient.
  */
 
-import {ModActionType, RedditAPIClient} from "@devvit/public-api";
+import {ModActionType, RedditAPIClient, Comment, Post} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
-import {TID} from "@devvit/shared-types/tid.js";
+import {T3ID, TID} from "@devvit/shared-types/tid.js";
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
@@ -87,4 +87,37 @@ export async function isContributor (reddit: RedditAPIClient, subredditName: str
 export async function isBanned (reddit: RedditAPIClient, subredditName: string, username: string): Promise<boolean> {
     const filteredBanList = await reddit.getBannedUsers({subredditName, username}).all();
     return filteredBanList.length > 0;
+}
+
+/**
+ * This function simplified the process of submitting a mod reply to a post.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param postId A post ID, should look like t3_abc123.
+ * @param text Text to submit as a comment.
+ * @param distinguish Should the comment be distinguished?
+ * @param sticky Should the comment be stickied? Please note that sticking a comment also distinguishes it.
+ * @param lock Should the comment be locked?
+ * @returns The comment that was submitted.
+ */
+export async function submitPostReply (reddit: RedditAPIClient, postId: T3ID, text: string, distinguish?: boolean, sticky?: boolean, lock?: boolean): Promise<Comment> {
+    const comment = await reddit.submitComment({id: postId, text});
+    if (distinguish || sticky) {
+        await comment.distinguish(sticky);
+    }
+    if (lock) {
+        await comment.lock();
+    }
+    return comment;
+}
+
+/**
+ * This function lets you ignore a post's reports based on its ID. This saves you from having to fetch the post first on your own. Only posts are supported because Devvit doesn't have a way to ignore reports on comments yet.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param postId A post ID, should look like t3_abc123.
+ * @returns The post that was ignored.
+ */
+export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3ID): Promise<Post> {
+    const post = await reddit.getPostById(postId);
+    await post.ignoreReports();
+    return post;
 }
