@@ -4,7 +4,7 @@
 
 import {ModActionType, RedditAPIClient, Comment, Post} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
-import {T3ID, TID} from "@devvit/shared-types/tid.js";
+import {T2ID, T3ID, TID} from "@devvit/shared-types/tid.js";
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
@@ -120,4 +120,14 @@ export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3
     const post = await reddit.getPostById(postId);
     await post.ignoreReports();
     return post;
+}
+
+/**
+ * This function lets you get a username from a user ID, it saves you from having to fetch the user first on your own.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param userId A user ID, should look like t2_abc123.
+ * @returns The username of the user (no prefix).
+ */
+export async function getUsernameFromUserId (reddit: RedditAPIClient, userId: T2ID): Promise<string> {
+    return reddit.getUserById(userId).then(user => user.username);
 }
