@@ -4,7 +4,6 @@
 
 import {ModActionType, RedditAPIClient, Comment, Post} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
-import {T1ID, T2ID, T3ID, TID} from "@devvit/shared-types/tid.js";
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
@@ -18,7 +17,7 @@ import {T1ID, T2ID, T3ID, TID} from "@devvit/shared-types/tid.js";
  * @param limit The number of actions to fetch. Defaults to 100, the maximum allowed in a single request.
  * @returns A boolean indicating whether the action has been performed.
  */
-export async function hasPerformedAction (reddit: RedditAPIClient, subredditName: string, actionTargetId: TID, actionType: ModActionType, moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
+export async function hasPerformedAction (reddit: RedditAPIClient, subredditName: string, actionTargetId: string, actionType: ModActionType, moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
     const modLog = await reddit.getModerationLog({subredditName, moderatorUsernames, type: actionType, limit, pageSize: 100}).all().catch(e => {
         console.error(`Failed to fetch ${actionType} log for ${subredditName} by ${moderatorUsernames?.join(",") ?? ""}`, e);
         return [];
@@ -47,7 +46,7 @@ export async function hasPerformedAction (reddit: RedditAPIClient, subredditName
  * @param limit The number of actions to fetch. Defaults to 100, the maximum allowed in a single request.
  * @returns A boolean indicating whether any of actions have been performed.
  */
-export async function hasPerformedActions (reddit: RedditAPIClient, subredditName: string, actionTargetId: TID, actionTypes: ModActionType[], moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
+export async function hasPerformedActions (reddit: RedditAPIClient, subredditName: string, actionTargetId: string, actionTypes: ModActionType[], moderatorUsernames?: string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
     const actionChecks = actionTypes.map(actionType => hasPerformedAction(reddit, subredditName, actionTargetId, actionType, moderatorUsernames, includeParent, cutoffSeconds, limit));
     const results = await Promise.all(actionChecks);
     return results.includes(true);
@@ -99,7 +98,7 @@ export async function isBanned (reddit: RedditAPIClient, subredditName: string, 
  * @param lock Should the comment be locked?
  * @returns The comment that was submitted.
  */
-export async function submitPostReply (reddit: RedditAPIClient, postId: T3ID, text: string, distinguish?: boolean, sticky?: boolean, lock?: boolean): Promise<Comment> {
+export async function submitPostReply (reddit: RedditAPIClient, postId: string, text: string, distinguish?: boolean, sticky?: boolean, lock?: boolean): Promise<Comment> {
     const comment = await reddit.submitComment({id: postId, text});
     if (distinguish || sticky) {
         await comment.distinguish(sticky);
@@ -117,7 +116,7 @@ export async function submitPostReply (reddit: RedditAPIClient, postId: T3ID, te
  * @param alsoApprove Should the post be approved as well as ignored? Defaults to true.
  * @returns The post that was ignored.
  */
-export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3ID, alsoApprove = true): Promise<Post> {
+export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: string, alsoApprove = true): Promise<Post> {
     const post = await reddit.getPostById(postId);
     await Promise.all([post.ignoreReports(), alsoApprove ? post.approve() : Promise.resolve()]);
     return post;
@@ -129,6 +128,6 @@ export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3
  * @param userId A user ID, should look like t2_abc123.
  * @returns The username of the user (no prefix).
  */
-export async function getUsernameFromUserId (reddit: RedditAPIClient, userId: T2ID): Promise<string> {
+export async function getUsernameFromUserId (reddit: RedditAPIClient, userId: string): Promise<string> {
     return reddit.getUserById(userId).then(user => user.username);
 }
