@@ -4,7 +4,7 @@
 
 import {ModActionType, RedditAPIClient, Comment, Post} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
-import {T2ID, T3ID, TID} from "@devvit/shared-types/tid.js";
+import {T1ID, T2ID, T3ID, TID} from "@devvit/shared-types/tid.js";
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
@@ -114,11 +114,12 @@ export async function submitPostReply (reddit: RedditAPIClient, postId: T3ID, te
  * This function lets you ignore a post's reports based on its ID. It both approves and ignores reports. This saves you from having to fetch the post first on your own. Only posts are supported because Devvit doesn't have a way to ignore reports on comments yet.
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
  * @param postId A post ID, should look like t3_abc123.
+ * @param alsoApprove Should the post be approved as well as ignored? Defaults to true.
  * @returns The post that was ignored.
  */
-export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3ID): Promise<Post> {
+export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3ID, alsoApprove = true): Promise<Post> {
     const post = await reddit.getPostById(postId);
-    await Promise.all([post.approve(), post.ignoreReports()]);
+    await Promise.all([post.ignoreReports(), alsoApprove ? post.approve() : Promise.resolve()]);
     return post;
 }
 
