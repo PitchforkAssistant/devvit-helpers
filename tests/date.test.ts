@@ -16,8 +16,8 @@ test.each([
     [new Date("2017-05-13T00:11:09.000Z"), "yyyy-MM-dd HH-mm-ss", "+02:00", enUS, "2017-05-13 02-11-09"], // Valid known date with valid timeformat and different timezone should return known string.
     [new Date("2017-05-13T00:11:09.000Z"), "yyyy-MM-dd HH-mm-ss", "UTC", enUS, "2017-05-13 00-11-09"], // Valid known date with valid timeformat and different timezone should return known string.
     [new Date("2017-05-13T00:11:09.000Z"), "yyyy-MM-dd HH-mm-ss", "", enUS, "2017-05-13 00-11-09"], // Valid known date with valid timeformat and no timezone should return known UTC string.
-])("safeTimeformat(%s, %s, %s, %s) -> %s", (date, timeformat, timezone, locale, expected) => {
-    expect(safeFormatInTimeZone(date, timeformat, timezone, locale)).toEqual(expected);
+])("safeTimeformat(%s, %s, %s, %s) -> %s", (date, dateformat, timezone, locale, expected) => {
+    expect(safeFormatInTimeZone(date, {dateformat, timezone, locale})).toEqual(expected);
 });
 
 // String, expected output.

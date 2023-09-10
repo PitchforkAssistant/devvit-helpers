@@ -1,3 +1,6 @@
+/**
+ * @file Coontains generic types and functions for removal reasons.
+ */
 
 import {CustomDateformat} from "../misc/date.js";
 

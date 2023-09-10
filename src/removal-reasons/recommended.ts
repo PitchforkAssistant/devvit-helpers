@@ -1,8 +1,12 @@
+/**
+ * @file Contains functions to generate removal reasons from posts and mod actions using recommended placeholders.
+ */
+
 import {Post} from "@devvit/public-api";
 import {CommentV2, ModAction, PostV2, SubredditV2, UserV2} from "@devvit/protos";
 import {Placeholder, PlaceholderGetters, getPlaceholdersFromGetters} from "./generics.js";
-import {domainFromUrlString} from "../misc.js";
-import {CustomDateformat, safeFormatInTimeZone} from "../date.js";
+import {domainFromUrlString} from "../misc/misc.js";
+import {CustomDateformat, safeFormatInTimeZone} from "../misc/date.js";
 import {isLinkId} from "@devvit/shared-types/tid.js";
 
 export type RecommendedPlaceholderKeys = "{{author}}" | "{{subreddit}}" | "{{body}}" | "{{title}}" | "{{kind}}" | "{{permalink}}" | "{{url}}" | "{{link}}" | "{{domain}}" | "{{author_id}}" | "{{subreddit_id}}" | "{{id}}" | "{{link_flair_text}}" | "{{link_flair_css_class}}" | "{{link_flair_template_id}}" | "{{author_flair_text}}" | "{{author_flair_css_class}}" | "{{author_flair_template_id}}" | "{{time_iso}}" | "{{time_unix}}" | "{{time_custom}}" | "{{created_iso}}" | "{{created_unix}}" | "{{created_custom}}" | "{{actioned_iso}}" | "{{actioned_unix}}" | "{{actioned_custom}}";
