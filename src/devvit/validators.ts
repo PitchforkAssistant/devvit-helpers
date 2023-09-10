@@ -43,3 +43,16 @@ export async function validateCustomLocale (event: SettingsFormFieldValidatorEve
         return errorMessage;
     }
 }
+
+/**
+ * This function validates a positive integer, zero is not considered valid.
+ * @param event Takes the Devvit string settings field validator object.
+ * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
+ * @returns The error message if the validation fails, or undefined if it passes.
+ */
+export async function validatePositiveInteger (event: SettingsFormFieldValidatorEvent<number>, errorMessage = ERRORS.NOT_POSITIVE_INTEGER) {
+    const value = Number(event?.value);
+    if (isNaN(value) || value < 0 || !Number.isInteger(value)) {
+        return errorMessage;
+    }
+}

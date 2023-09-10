@@ -1,5 +1,5 @@
 import {ERRORS} from "../src/constants/errors.js";
-import {validateCustomDateformat, validateCustomLocale, validateCustomTimezone} from "../src/devvit/validators.js";
+import {validateCustomDateformat, validateCustomLocale, validateCustomTimezone, validatePositiveInteger} from "../src/devvit/validators.js";
 
 test("validateCustomTimeformat should return nothing for a valid timeformat", async () => {
     expect(await validateCustomDateformat({value: "yyyy-MM-dd HH:mm:ss", isEditing: false})).toBeUndefined();
@@ -38,5 +38,25 @@ describe("validateCustomLocale", () => {
         "aww",
     ])("validateCustomLocale(%s) should return string", async input => {
         expect(await validateCustomLocale({value: input, isEditing: false})).toEqual(ERRORS.INVALID_LOCALE);
+    });
+});
+
+describe("validatePositiveInteger", () => {
+    test.each([
+        1,
+        5,
+        10,
+        999999,
+    ])("validatePositiveInteger(%s) should return undefined", async input => {
+        expect(await validatePositiveInteger({value: input, isEditing: false})).toBeUndefined();
+    });
+
+    test.each([
+        -2,
+        3.41,
+        Infinity,
+        NaN,
+    ])("validatePositiveInteger(%s) should return string", async input => {
+        expect(await validatePositiveInteger({value: input, isEditing: false})).toEqual(ERRORS.NOT_POSITIVE_INTEGER);
     });
 });
