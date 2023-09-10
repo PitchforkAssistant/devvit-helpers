@@ -111,14 +111,14 @@ export async function submitPostReply (reddit: RedditAPIClient, postId: T3ID, te
 }
 
 /**
- * This function lets you ignore a post's reports based on its ID. This saves you from having to fetch the post first on your own. Only posts are supported because Devvit doesn't have a way to ignore reports on comments yet.
+ * This function lets you ignore a post's reports based on its ID. It both approves and ignores reports. This saves you from having to fetch the post first on your own. Only posts are supported because Devvit doesn't have a way to ignore reports on comments yet.
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
  * @param postId A post ID, should look like t3_abc123.
  * @returns The post that was ignored.
  */
 export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: T3ID): Promise<Post> {
     const post = await reddit.getPostById(postId);
-    await post.ignoreReports();
+    await Promise.all([post.approve(), post.ignoreReports()]);
     return post;
 }
 
