@@ -1,5 +1,5 @@
 /**
- * @file This file contains helper functions to simplify common tasks that involving the RedditAPIClient.
+ * @file This file contains helper functions to simplify common tasks that involving Devvit's RedditAPIClient.
  */
 
 import {ModActionType, RedditAPIClient} from "@devvit/public-api";
