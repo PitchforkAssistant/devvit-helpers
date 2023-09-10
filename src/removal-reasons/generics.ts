@@ -37,15 +37,19 @@ export function replacePlaceholders (text: string, placeholders: Placeholder[]):
 }
 
 /**
- * This function assembles a removal reason from its components and populates their placeholders.
- * @param body The body of the removal reason, sandwiched between the header and footer.
+ *
+ * @param template Removal reason template object, containing the body, and optionally the header and/or footer and joiner.
  * @param placeholders A list of objects containing the placeholder and its value.
- * @param header Prepended to the body, empty by default.
- * @param footer Appended to the body, empty by default.
- * @param joiner The string that joins the header, body, and footer. Defaults to two newlines.
+ * @param extraPlaceholders A record of placeholders and their values. You can just add these to placeholders, but this is convenient if you want to add custom placeholders in addition the recommended ones.
  * @returns The assembled removal reason.
  */
-export function assembleRemovalReason (template: RemovalReasonTemplate, placeholders: Placeholder[]): string {
+export function assembleRemovalReason (template: RemovalReasonTemplate, placeholders: Placeholder[], placeholderRecord?: Record<string, string>): string {
+    // Add custom placeholders to the list of placeholders.
+    if (placeholderRecord) {
+        const morePlaceholders = placeholdersFromRecord(placeholderRecord);
+        placeholders = placeholders.concat(morePlaceholders);
+    }
+
     let text = replacePlaceholders(template.body, placeholders);
 
     if (template.header) {
