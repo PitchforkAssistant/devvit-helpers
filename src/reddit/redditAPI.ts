@@ -3,7 +3,7 @@
  */
 
 import {ModActionType, RedditAPIClient} from "@devvit/public-api";
-import {getTimeDeltaInSeconds} from "./date.js";
+import {getTimeDeltaInSeconds} from "../misc/date.js";
 import {TID} from "@devvit/shared-types/tid.js";
 
 /**

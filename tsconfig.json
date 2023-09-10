@@ -2,7 +2,7 @@
     "extends": "@devvit/tsconfig/devvit.tsconfig.json",
     "compilerOptions": {
         "target": "ES2020",
-        "module": "ES2020",
+        "module": "nodenext",
         "lib": ["ES2022", "WebWorker"],
         "resolveJsonModule": true,
         "declaration": true,

@@ -1,4 +1,4 @@
-import {domainFromUrlString} from "../src/helpers/misc.js";
+import {domainFromUrlString} from "../src/misc/misc.js";
 
 // URL, expected output.
 test.each([

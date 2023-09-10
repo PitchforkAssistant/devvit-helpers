@@ -1,5 +1,5 @@
 
-import {CustomDateformat} from "../date.js";
+import {CustomDateformat} from "../misc/date.js";
 
 export type Placeholder = {
     placeholder: string;
