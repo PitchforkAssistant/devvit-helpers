@@ -69,3 +69,40 @@ export async function validatePositiveNumber (event: SettingsFormFieldValidatorE
         return errorMessage;
     }
 }
+
+/**
+ * This function validates a comma-separated list of usernames.
+ * @param event Takes the Devvit string settings field validator object.
+ * @param errorMessage This is the returned error message if the regex test at the end fails.
+ * @param errorMessagePrefix This is the returned error message if the string contains a forward slash, indicating the presence of a /u/.
+ * @param errorMessageSpace This is the returned error message if the string contains a space.
+ * @param errorMessageTrailing This is the returned error message if the string ends with a comma.
+ * @returns The error message if the validation fails, or undefined if it passes.
+ */
+export async function validateUsernameList (
+    event: SettingsFormFieldValidatorEvent<string>,
+    errorMessage = ERRORS.USERNAMECSV_INVALID,
+    errorMessagePrefix = ERRORS.USERNAMECSV_PREFIXED,
+    errorMessageSpace = ERRORS.USERNAMECSV_SPACE,
+    errorMessageTrailing = ERRORS.USERNAMECSV_TRAILING
+) {
+    const allowedAuthorsString = event.value?.toString() ?? "";
+    if (!allowedAuthorsString) {
+        return;
+    }
+
+    if (allowedAuthorsString.includes("/")) {
+        return errorMessagePrefix;
+    } else if (allowedAuthorsString.includes(" ")) {
+        return errorMessageSpace;
+    } else if (allowedAuthorsString.endsWith(",")) {
+        return errorMessageTrailing;
+    }
+
+    // Usernames can be 3-20 characters long, but there are special cases like subredditNameHere-ModTeam,
+    // where it can be 21+8=29 characters. Subreddit names are limited to 21 characters.
+    const allowedAuthorsRegex = new RegExp(/^[a-zA-Z0-9_-]{3,29}(,[a-zA-Z0-9_-]{3,29})*$/);
+    if (!allowedAuthorsRegex.test(allowedAuthorsString)) {
+        return errorMessage;
+    }
+}

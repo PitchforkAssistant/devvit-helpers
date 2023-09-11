@@ -1,5 +1,5 @@
 import {ERRORS} from "../src/constants/errors.js";
-import {validateCustomDateformat, validateCustomLocale, validateCustomTimezone, validatePositiveInteger, validatePositiveNumber} from "../src/devvit/validators.js";
+import {validateCustomDateformat, validateCustomLocale, validateCustomTimezone, validatePositiveInteger, validatePositiveNumber, validateUsernameList} from "../src/devvit/validators.js";
 
 test("validateCustomTimeformat should return nothing for a valid timeformat", async () => {
     expect(await validateCustomDateformat({value: "yyyy-MM-dd HH:mm:ss", isEditing: false})).toBeUndefined();
@@ -116,5 +116,49 @@ describe("validatePositiveNumber", () => {
         NaN,
     ])("validatePositiveNumber(%s) should return string", async input => {
         expect(await validatePositiveNumber({value: input, isEditing: false}, "test")).toEqual("test");
+    });
+});
+
+describe("validateUsernameList", () => {
+    test.each([
+        "/u/username",
+        "/username",
+        "/u/sername1,/u/username2,u/username3",
+        "/u/username1, /u/username2, /u/username3,",
+    ])("validateUsernameList(%s) should return prefixed error", async input => {
+        expect(await validateUsernameList({value: input, isEditing: false})).toEqual(ERRORS.USERNAMECSV_PREFIXED);
+    });
+
+    test.each([
+        "username,username2,username3 ",
+        " username,username2,username3",
+        "username1,PitchforkAssistant-ModTeam, username2,username3",
+        "username1, username2, username3,",
+    ])("validateUsernameList(%s) should return space error", async input => {
+        expect(await validateUsernameList({value: input, isEditing: false})).toEqual(ERRORS.USERNAMECSV_SPACE);
+    });
+
+    test.each([
+        "username1,PitchforkAssistant-ModTeam,username2,username3,",
+        "username1,username2,username3,",
+    ])("validateUsernameList(%s) should return trailing comma error", async input => {
+        expect(await validateUsernameList({value: input, isEditing: false})).toEqual(ERRORS.USERNAMECSV_TRAILING);
+    });
+
+    test.each([
+        "username1,PitchforkAssistantTooLong-ModTeam,username2,username3",
+        "username1,username2,username3,questionmark?inuser",
+        "username1,🦥,username3,questionmark?inuser",
+        "username1,x,xistooshort",
+    ])("validateUsernameList(%s) should return general error", async input => {
+        expect(await validateUsernameList({value: input, isEditing: false})).toEqual(ERRORS.USERNAMECSV_INVALID);
+    });
+
+    test.each([
+        "reddit,PitchforkAssistant-ModTeam,AutoModerator,PitchforkAssistant",
+        "spez",
+        "",
+    ])("validateUsernameList(%s) should return undefined", async input => {
+        expect(await validateUsernameList({value: input, isEditing: false})).toBeUndefined();
     });
 });
