@@ -27,7 +27,7 @@ describe("validateCustomTimezone", () => {
         "00:00",
         "0",
     ])("validateCustomTimezone(%s) should return string", async input => {
-        expect(await validateCustomTimezone({value: input, isEditing: false}, "test")).toEqual("test");
+        expect(await validateCustomTimezone({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 
@@ -51,7 +51,7 @@ describe("validateCustomLocale", () => {
         "_lib",
         "aww",
     ])("validateCustomLocale(%s) should return string", async input => {
-        expect(await validateCustomLocale({value: input, isEditing: false}, "test")).toEqual("test");
+        expect(await validateCustomLocale({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 
@@ -82,7 +82,7 @@ describe("validatePositiveInteger", () => {
         Infinity,
         NaN,
     ])("validatePositiveInteger(%s) should return string", async input => {
-        expect(await validatePositiveInteger({value: input, isEditing: false}, "test")).toEqual("test");
+        expect(await validatePositiveInteger({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 
@@ -115,7 +115,7 @@ describe("validatePositiveNumber", () => {
         Infinity,
         NaN,
     ])("validatePositiveNumber(%s) should return string", async input => {
-        expect(await validatePositiveNumber({value: input, isEditing: false}, "test")).toEqual("test");
+        expect(await validatePositiveNumber({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 

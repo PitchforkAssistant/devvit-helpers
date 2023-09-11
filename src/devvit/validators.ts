@@ -2,7 +2,7 @@
  * @file This file contains functions to validate certain Devvit settings fields.
  */
 
-import {SettingsFormFieldValidatorEvent} from "@devvit/public-api";
+import {Context, SettingsFormFieldValidatorEvent} from "@devvit/public-api";
 import {getTimezoneOffset} from "date-fns-tz";
 import {enUS} from "date-fns/locale";
 import {getLocaleFromString, safeFormatInTimeZone} from "../misc/date.js";
@@ -14,7 +14,7 @@ import {ERRORS} from "../constants/errors.js";
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validateCustomDateformat (event: SettingsFormFieldValidatorEvent<string>, errorMessage = ERRORS.INVALID_DATE_TEMPLATE): Promise<string | undefined> {
+export async function validateCustomDateformat (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_DATE_TEMPLATE): Promise<string | undefined> {
     if (!safeFormatInTimeZone(new Date(), {dateformat: event?.value?.toString() ?? "", timezone: "UTC", locale: enUS})) {
         return errorMessage;
     }
@@ -26,7 +26,7 @@ export async function validateCustomDateformat (event: SettingsFormFieldValidato
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validateCustomTimezone (event: SettingsFormFieldValidatorEvent<string>, errorMessage = ERRORS.INVALID_TIMEZONE) {
+export async function validateCustomTimezone (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_TIMEZONE) {
     if (isNaN(getTimezoneOffset(event?.value?.toString() ?? ""))) {
         return errorMessage;
     }
@@ -38,7 +38,7 @@ export async function validateCustomTimezone (event: SettingsFormFieldValidatorE
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validateCustomLocale (event: SettingsFormFieldValidatorEvent<string>, errorMessage = ERRORS.INVALID_LOCALE) {
+export async function validateCustomLocale (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_LOCALE) {
     if (!getLocaleFromString(event?.value?.toString() ?? "")) {
         return errorMessage;
     }
@@ -50,7 +50,7 @@ export async function validateCustomLocale (event: SettingsFormFieldValidatorEve
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validatePositiveInteger (event: SettingsFormFieldValidatorEvent<number>, errorMessage = ERRORS.NOT_POSITIVE_INTEGER) {
+export async function validatePositiveInteger (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE_INTEGER) {
     const value = Number(event?.value);
     if (isNaN(value) || value <= 0 || !Number.isInteger(value)) {
         return errorMessage;
@@ -63,7 +63,7 @@ export async function validatePositiveInteger (event: SettingsFormFieldValidator
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validatePositiveNumber (event: SettingsFormFieldValidatorEvent<number>, errorMessage = ERRORS.NOT_POSITIVE_NUMBER) {
+export async function validatePositiveNumber (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE_NUMBER) {
     const value = Number(event?.value);
     if (isNaN(value) || value <= 0 || value === Infinity) {
         return errorMessage;
@@ -80,7 +80,7 @@ export async function validatePositiveNumber (event: SettingsFormFieldValidatorE
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 export async function validateUsernameList (
-    event: SettingsFormFieldValidatorEvent<string>,
+    event: SettingsFormFieldValidatorEvent<string>, _context?: Context,
     errorMessage = ERRORS.USERNAMECSV_INVALID,
     errorMessagePrefix = ERRORS.USERNAMECSV_PREFIXED,
     errorMessageSpace = ERRORS.USERNAMECSV_SPACE,
