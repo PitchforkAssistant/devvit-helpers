@@ -4,7 +4,7 @@
 
 import {ModActionType, RedditAPIClient, Comment, Post} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
-import {valueToArrayOrUndefined} from "../misc/misc.js";
+import {valueToArrayOrUndefined} from "../misc/converters.js";
 
 /**
  * This function lets you check if moderators have performed a specific action on something.

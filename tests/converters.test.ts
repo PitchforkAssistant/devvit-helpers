@@ -1,4 +1,4 @@
-import {toNumberOrDefault, toStringOrDefault} from "../src/misc/converters.js";
+import {toNumberOrDefault, toStringOrDefault, valueToArrayOrUndefined} from "../src/misc/converters.js";
 
 // String, fallback, expected output.
 test.each([
@@ -21,4 +21,16 @@ test.each([
     [null, "", "null"],
 ])("toNumberOrDefault(%s, %s) -> %s", (input, fallback, expected) => {
     expect(toStringOrDefault(input, fallback)).toEqual(expected);
+});
+
+// Value, expected output.
+test.each([
+    ["test1,test2,test3", ["test1,test2,test3"]],
+    [undefined, undefined],
+    [["test1", "test2", "test3"], ["test1", "test2", "test3"]],
+    [1, [1]],
+    [[1, 2, 3], [1, 2, 3]],
+    [[], []],
+])("valueToArrayOrUndefined(%s) -> %s", (input, expected) => {
+    expect(valueToArrayOrUndefined(input)).toEqual(expected);
 });

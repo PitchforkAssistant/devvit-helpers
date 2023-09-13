@@ -1,4 +1,4 @@
-import {domainFromUrlString, valueToArrayOrUndefined} from "../src/misc/misc.js";
+import {domainFromUrlString} from "../src/misc/misc.js";
 
 // URL, expected output.
 test.each([
@@ -13,16 +13,4 @@ test.each([
     ["https://cdn.discordapp.com/attachments/1122823169997295626/1129349737477320734/image.png", "cdn.discordapp.com"],
 ])("domainFromUrlString(%s) -> %s", (url, expected) => {
     expect(domainFromUrlString(url)).toEqual(expected);
-});
-
-// Value, expected output.
-test.each([
-    ["test1,test2,test3", ["test1,test2,test3"]],
-    [undefined, undefined],
-    [["test1", "test2", "test3"], ["test1", "test2", "test3"]],
-    [1, [1]],
-    [[1, 2, 3], [1, 2, 3]],
-    [[], []],
-])("valueToArrayOrUndefined(%s) -> %s", (input, expected) => {
-    expect(valueToArrayOrUndefined(input)).toEqual(expected);
 });
