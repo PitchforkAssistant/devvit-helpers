@@ -15,7 +15,6 @@ export function domainFromUrlString (url: string, defaultValue = ""): string {
            return url.hostname; */
         const hostnameRegex = /(?<=^|:\/\/)(www\.)?([^/:\s]+?)(?=\/|:\d|$)/;
         const matches = url.match(hostnameRegex);
-        console.log(matches);
         if (matches && matches.length === 3) {
             return matches[2];
         } else {
