@@ -4,6 +4,8 @@ import {domainFromUrlString} from "../src/misc/misc.js";
 test.each([
     ["", ""],
     ["not a valid url", ""],
+    ["redd.it/6auyq9", "redd.it"],
+    ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "youtube.com"],
     ["https://i.imgur.com/CykNguI.png", "i.imgur.com"],
     ["https://i.redd.it/pctkxfqn4u9b1.png", "i.redd.it"],
     ["https://github.com/PitchforkAssistant/devvit-flair-assistant", "github.com"],
