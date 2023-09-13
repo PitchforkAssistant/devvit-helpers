@@ -24,3 +24,18 @@ export function domainFromUrlString (url: string, defaultValue = ""): string {
         return defaultValue;
     }
 }
+
+/**
+ * Takes a value and returns it as a single item array of that type, or undefined if the input is undefined.
+ * @param value A value, array of values, or undefined.
+ * @returns The provided value as a single item array, or undefined if the input is undefined, or the input if it is already an array.
+ */
+export function valueToArrayOrUndefined<T> (value: T | T[] | undefined): T[] | undefined {
+    if (Array.isArray(value)) {
+        return value;
+    } else if (value !== undefined) {
+        return [value];
+    } else {
+        return undefined;
+    }
+}
