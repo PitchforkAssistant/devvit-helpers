@@ -123,6 +123,23 @@ export async function ignoreReportsByPostId (reddit: RedditAPIClient, postId: st
 }
 
 /**
+ * This function lets you lock or unlock a post based on its ID. This saves you from having to fetch the post first on your own.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param postId A post ID, should look like t3_abc123.
+ * @param locked Should the lock state be set to locked (true) or unlocked (false)? Defaults to true.
+ * @returns The post that was ignored.
+ */
+export async function setLockByPostId (reddit: RedditAPIClient, postId: string, locked = true): Promise<Post> {
+    const post = await reddit.getPostById(postId);
+    if (locked) {
+        await post.lock();
+    } else {
+        await post.unlock();
+    }
+    return post;
+}
+
+/**
  * This function lets you get a username from a user ID, it saves you from having to fetch the user first on your own.
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
  * @param userId A user ID, should look like t2_abc123.
