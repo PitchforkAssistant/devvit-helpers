@@ -13,10 +13,10 @@ export function domainFromUrlString (url: string, defaultValue = ""): string {
         // URL() is not currently available in the Devvit execution environment, so we have to use regex.
         /* const url = new URL(urlString);
            return url.hostname; */
-        const hostnameRegex = /(?<=^|:\/\/)(www\.)?([^/:\s]+?)(?=\/|:\d|$)/;
+        const hostnameRegex = /(?<=^|:\/\/)(?:www\.)?([^/:\s]+?)(?=\/|:\d|$)/;
         const matches = url.match(hostnameRegex);
-        if (matches && matches.length === 3) {
-            return matches[2];
+        if (matches && matches.length === 2) {
+            return matches[1];
         } else {
             return defaultValue;
         }
