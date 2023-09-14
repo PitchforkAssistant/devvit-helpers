@@ -101,7 +101,8 @@ export async function validateUsernameList (
 
     // Usernames can be 3-20 characters long, but there are special cases like subredditNameHere-ModTeam,
     // where it can be 21+8=29 characters. Subreddit names are limited to 21 characters.
-    const allowedAuthorsRegex = new RegExp(/^[a-zA-Z0-9_-]{3,29}(,[a-zA-Z0-9_-]{3,29})*$/);
+    // Update: With user profile subreddits, a subreddit name can be 22 characters long, so we'll allow 22+8=30 characters.
+    const allowedAuthorsRegex = new RegExp(/^[a-zA-Z0-9_-]{3,30}(,[a-zA-Z0-9_-]{3,30})*$/);
     if (!allowedAuthorsRegex.test(allowedAuthorsString)) {
         return errorMessage;
     }
