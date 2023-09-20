@@ -12,7 +12,7 @@ import {Data, Scheduler} from "@devvit/public-api";
  * @param data The data to pass to the job, it can be any object.
  * @returns The ID of the job that was started.
  */
-export async function startSingletonJob (scheduler: Scheduler, jobName: string, cronSchedule: string, data: Data): Promise<string> {
+export async function startSingletonJob (scheduler: Scheduler, jobName: string, cronSchedule: string, data?: Data): Promise<string> {
     // Cancel existing instances of the job.
     const currentJobs = await scheduler.listJobs();
     for (const job of currentJobs) {
