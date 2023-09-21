@@ -2,9 +2,30 @@
  * @file This file contains helper functions to simplify common tasks that involving Devvit's RedditAPIClient.
  */
 
-import {ModActionType, RedditAPIClient, Comment, Post} from "@devvit/public-api";
+import {ModActionType, RedditAPIClient, Comment, Post, ModAction} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
 import {valueToArrayOrUndefined} from "../misc/converters.js";
+
+/**
+ * This function lets you fetch the moderation log with multiple action types at once.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param subredditName Subreddit name as a string (no prefix).
+ * @param actionType Optionally filter by action type, one of the strings from ModActionType or an array of them.
+ * @param moderators Optionally filter by moderator, one or more usernames (no prefix) or an array of them.
+ * @param limit The number of actions to fetch, this is for each actionType. Defaults to 100, the maximum allowed in a single request.
+ * @returns A list of mod actions.
+ */
+export async function getModerationLog (reddit: RedditAPIClient, subredditName: string, actionType?: ModActionType[], moderators?: string | string[], limit = 100): Promise<ModAction[]> {
+    const moderatorUsernames = valueToArrayOrUndefined<string>(moderators);
+    const actionTypes = valueToArrayOrUndefined<ModActionType>(actionType);
+    if (!actionTypes) {
+        return reddit.getModerationLog({subredditName, moderatorUsernames, limit, pageSize: 100}).all();
+    } else {
+        const actionChecks = actionTypes.map(actionType => reddit.getModerationLog({subredditName, moderatorUsernames, type: actionType, limit, pageSize: 100}).all());
+        const results = await Promise.all(actionChecks);
+        return results.flat();
+    }
+}
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
