@@ -46,6 +46,10 @@ export function replacePlaceholders (text: string, placeholders: Placeholder[]):
 export function assembleRemovalReason (template: RemovalReasonTemplate, placeholders: Placeholder[], placeholderRecord?: Record<string, string>): string {
     // Add custom placeholders to the list of placeholders.
     if (placeholderRecord) {
+        // Prefer the placeholders from the record over the ones from the list, so remove duplicates.
+        placeholders = placeholders.filter(placeholder => !Object.keys(placeholderRecord).includes(placeholder.placeholder));
+
+        // Append the placeholders from the record.
         const morePlaceholders = placeholdersFromRecord(placeholderRecord);
         placeholders = placeholders.concat(morePlaceholders);
     }
