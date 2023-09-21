@@ -1,5 +1,5 @@
-import {de, enUS} from "date-fns/locale";
-import {getLocaleFromString, getTimeDeltaInSeconds, isValidDate, safeFormatInTimeZone} from "../src/misc/date.js";
+import {de, enUS, frCA} from "date-fns/locale";
+import {getLocaleFromString, getTimeDeltaInSeconds, isCustomDateformat, isValidDate, safeFormatInTimeZone} from "../src/misc/date.js";
 
 // Date object, timeformat, expected output.
 test.each([
@@ -53,4 +53,38 @@ test.each([
     [new Date("2023-06-09T17:44:13.123Z"), true],
 ])("isValidDate(%s) -> %s", (date, expected) => {
     expect(isValidDate(date)).toEqual(expected);
+});
+
+// Object, expected output.
+// test isCustomDateformat
+test.each([
+    // Invalid types
+    [{}, false],
+    [[], false],
+    [undefined, false],
+    [null, false],
+    ["?", false],
+    [0, false],
+    [true, false],
+    [false, false],
+    // Missing properties
+    [{dateformat: "", timezone: ""}, false],
+    [{dateformat: "", locale: enUS}, false],
+    [{timezone: "", locale: enUS}, false],
+    // Invalid properties
+    [{dateformat: {}, timezone: {}, locale: {}}, false],
+    [{dateformat: "", timezone: "UTC", locale: enUS}, false],
+    [{dateformat: "yyyy-MM-dd HH-mm-ss", timezone: "+10:00", locale: "potato"}, false],
+    [{dateformat: "yyyy-MM-dd HH-mm-ss", timezone: "+10:00", locale: {}}, false],
+    [{dateformat: "yyyy/'W'w hh-mm-ssa", timezone: "00:00", locale: enUS}, false],
+    [{dateformat: "invalid format string", timezone: "America/New_York", locale: enUS}, false],
+    // Valid cases
+    [{dateformat: "yyyy/'W'w hh-mm-ssa", timezone: "", locale: enUS}, true],
+    [{dateformat: "yyyy/'W'w hh-mm-ssa", timezone: "+00:00", locale: enUS}, true],
+    [{dateformat: "yyyy-MM-dd HH-mm-ss", timezone: "-10:00", locale: enUS}, true],
+    [{dateformat: "yyyy-MM-dd HH-mm-ss", timezone: "+10:00", locale: frCA}, true],
+    [{dateformat: "yyyy-MM-dd HH-mm-ss", timezone: "America/New_York", locale: de}, true],
+    [{dateformat: "yyyy/'Q'Q HH-mm-ss.SSS", timezone: "PST", locale: enUS}, true],
+])("isCustomDateformat(%s) -> %s", (input, expected) => {
+    expect(isCustomDateformat(input)).toEqual(expected);
 });

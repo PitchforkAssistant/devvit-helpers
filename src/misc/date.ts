@@ -16,7 +16,23 @@ export type CustomDateformat = {
 }
 
 /**
- *
+ * This function checks whether an input is a CustomDateformat object.
+ * @param input Unknown input.
+ * @returns True if the input is a CustomDateformat object, false otherwise.
+ */
+export function isCustomDateformat (input: unknown): input is CustomDateformat {
+    if (!input || typeof input !== "object") {
+        return false;
+    }
+    if (!("dateformat" in input) || !("timezone" in input) || !("locale" in input)) {
+        return false;
+    }
+    const asCdf = input as CustomDateformat;
+    return safeFormatInTimeZone(new Date(), asCdf, "safeFormatInTimeZone with input failed") !== "safeFormatInTimeZone with input failed";
+}
+
+/**
+ * This function formats a Date() object in a given timezone and locale using date-fns-tz. If something goes wrong, it returns a default value.
  * @param datetime A Date() object.
  * @param timeformat The format string to use for formatting the time (see https://date-fns.org/docs/format).
  * @param timezone An IANA timezone string or offset string (see https://github.com/marnusw/date-fns-tz#formatintimezone).
