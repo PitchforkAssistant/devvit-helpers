@@ -29,9 +29,9 @@ export const RecommendedPlaceholderGettersFromPost: PlaceholderGetters<Recommend
     "{{link_flair_text}}": async post => post.flair?.text ?? "",
     "{{link_flair_css_class}}": async post => post.flair?.cssClass ?? "",
     "{{link_flair_template_id}}": async post => post.flair?.templateId ?? "",
-    "{{author_flair_text}}": async () => "", // Post object does not currently contain author flair.
-    "{{author_flair_css_class}}": async () => "", // Post object does not currently contain author flair.
-    "{{author_flair_template_id}}": async () => "", // Post object does not currently contain author flair.
+    "{{author_flair_text}}": async post => (await (await post.getAuthor()).getUserFlairBySubreddit(post.subredditName))?.flairText ?? "", // Post object does not currently contain author flair.
+    "{{author_flair_css_class}}": async post => (await (await post.getAuthor()).getUserFlairBySubreddit(post.subredditName))?.flairCssClass ?? "", // Post object does not currently contain author flair.
+    "{{author_flair_template_id}}": async () => "", // Post object does not currently contain author flair and getUserFlairBySubreddit doesn't return the template ID.
     "{{time_iso}}": async () => new Date().toISOString(),
     "{{time_unix}}": async () => (new Date().getTime() / 1000).toString(),
     "{{time_custom}}": async post => post.customDateformat ? safeFormatInTimeZone(new Date(), post.customDateformat) : "",
