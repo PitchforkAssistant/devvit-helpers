@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.2.23-next.0",
+    "version": "0.2.23-next.1",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
@@ -15,7 +15,10 @@
     },
     "dependencies": {
         "date-fns": "^2.30.0",
-        "date-fns-tz": "^2.0.0"
+        "date-fns-tz": "^2.0.0",
+        "@devvit/protos": "0.10.6",
+        "@devvit/public-api": "0.10.6",
+        "@devvit/shared-types": "0.10.6"
     },
     "devDependencies": {
         "@devvit/tsconfig": "0.10.6",
@@ -30,6 +33,14 @@
         "@devvit/protos": "0.10.6",
         "@devvit/public-api": "0.10.6",
         "@devvit/shared-types": "0.10.6"
+    },
+    "peerDependenciesMeta": {
+        "@devvit/protos": {
+            "optional": true
+        },
+        "@devvit/shared-types": {
+            "optional": true
+        }
     },
     "publishConfig": {
         "directory": "dist"
