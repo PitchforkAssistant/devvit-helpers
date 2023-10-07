@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.2.22",
+    "version": "0.2.23",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
@@ -18,7 +18,7 @@
         "date-fns-tz": "^2.0.0"
     },
     "devDependencies": {
-        "@devvit/tsconfig": "0.10.4",
+        "@devvit/tsconfig": "0.10.6",
         "@typescript-eslint/eslint-plugin": "^6.7.4",
         "@typescript-eslint/parser": "^6.7.4",
         "eslint": "^8.51.0",
@@ -27,9 +27,9 @@
         "vitest": "0.34.6"
     },
     "peerDependencies": {
-        "@devvit/protos": "0.10.4",
-        "@devvit/public-api": "0.10.4",
-        "@devvit/shared-types": "0.10.4"
+        "@devvit/protos": "0.10.6",
+        "@devvit/public-api": "0.10.6",
+        "@devvit/shared-types": "0.10.6"
     },
     "publishConfig": {
         "directory": "dist"
@@ -37,5 +37,25 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/PitchforkAssistant/devvit-helpers.git"
-    }
+    },
+    "author": {
+        "name": "Pitchfork Assistant",
+        "email": "pitchforkassistant@gmail.com",
+        "url": "https://u_pitchforkassistant.reddit.com/"
+    },
+    "bugs": {
+        "url": "https://github.com/PitchforkAssistant/devvit-helpers/issues"
+    },
+    "homepage": "https://github.com/PitchforkAssistant/devvit-helpers/",
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/pitchforkassistant"
+        },
+        {
+            "type": "kofi",
+            "url": "https://ko-fi.com/pitchforkassistant"
+        }
+    ],
+    "keywords": ["reddit", "devvit"]
 }
