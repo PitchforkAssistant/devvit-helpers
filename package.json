@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.2.20",
+    "version": "0.2.21",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
@@ -28,6 +28,22 @@
         "eslint-plugin-vitest": "^0.3.1",
         "typescript": "4.9.3",
         "vitest": "0.31.1"
+    },
+    "peerDependencies": {
+        "@devvit/protos": "0.10.4",
+        "@devvit/public-api": "0.10.4",
+        "@devvit/shared-types": "0.10.4"
+    },
+    "peerDependenciesMeta": {
+        "@devvit/protos": {
+            "optional": true
+        },
+        "@devvit/public-api": {
+            "optional": false
+        },
+        "@devvit/shared-types": {
+            "optional": true
+        }
     },
     "publishConfig": {
         "directory": "dist"
