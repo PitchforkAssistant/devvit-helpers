@@ -2,7 +2,7 @@
  * @file This file contains helper functions to simplify common tasks that involving Devvit's RedditAPIClient.
  */
 
-import {ModActionType, RedditAPIClient, Comment, Post, ModAction} from "@devvit/public-api";
+import {ModActionType, RedditAPIClient, Comment, Post, ModAction, ModeratorPermission} from "@devvit/public-api";
 import {getTimeDeltaInSeconds} from "../misc/date.js";
 import {valueToArrayOrUndefined} from "../misc/converters.js";
 
@@ -170,4 +170,25 @@ export async function setLockByPostId (reddit: RedditAPIClient, postId: string, 
  */
 export async function getUsernameFromUserId (reddit: RedditAPIClient, userId: string): Promise<string> {
     return reddit.getUserById(userId).then(user => user.username);
+}
+
+/**
+ * This function lets you quickly check which permissions a user has on a subreddit with just the username and subreddit name.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param subredditName The name of the subreddit as a string, without the prefix.
+ * @param username The username of the user as a string, without the prefix.
+ * @param requiredPerms The user must have all of these permissions to return true, can be a ModeratorPermission string or array of them. If omitted, the function will return true if the user has any permissions.
+ * @returns A boolean indicating whether the user has the required permissions.
+ */
+export async function hasPermissions (reddit: RedditAPIClient, subredditName: string, username: string, requiredPerms?: ModeratorPermission | ModeratorPermission[]): Promise<boolean> {
+    requiredPerms = valueToArrayOrUndefined<ModeratorPermission>(requiredPerms);
+    const user = await reddit.getUserByUsername(username);
+    const actualPerms = await user.getModPermissionsForSubreddit(subredditName);
+    if (actualPerms.includes("all")) {
+        return true;
+    } else if (!requiredPerms) {
+        return actualPerms.length > 0;
+    } else {
+        return requiredPerms.every(requiredPerm => actualPerms.includes(requiredPerm));
+    }
 }
