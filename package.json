@@ -16,23 +16,23 @@
     "dependencies": {
         "date-fns": "^2.30.0",
         "date-fns-tz": "^2.0.0",
-        "@devvit/protos": "0.10.6",
-        "@devvit/public-api": "0.10.6",
-        "@devvit/shared-types": "0.10.6"
+        "@devvit/protos": "0.10.7",
+        "@devvit/public-api": "0.10.7",
+        "@devvit/shared-types": "0.10.7"
     },
     "devDependencies": {
-        "@devvit/tsconfig": "0.10.6",
-        "@typescript-eslint/eslint-plugin": "^6.7.4",
-        "@typescript-eslint/parser": "^6.7.4",
+        "@devvit/tsconfig": "0.10.7",
+        "@typescript-eslint/eslint-plugin": "^6.8.0",
+        "@typescript-eslint/parser": "^6.8.0",
         "eslint": "^8.51.0",
         "eslint-plugin-vitest": "^0.3.2",
         "typescript": "5.2.2",
         "vitest": "0.34.6"
     },
     "peerDependencies": {
-        "@devvit/protos": "0.10.6",
-        "@devvit/public-api": "0.10.6",
-        "@devvit/shared-types": "0.10.6"
+        "@devvit/protos": "0.10.7",
+        "@devvit/public-api": "0.10.7",
+        "@devvit/shared-types": "0.10.7"
     },
     "peerDependenciesMeta": {
         "@devvit/protos": {
