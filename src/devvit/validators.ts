@@ -74,7 +74,7 @@ export async function validateCustomLocale (event: SettingsFormFieldValidatorEve
  * @param _context Takes the Devvit context object for compatability, but it's not used in this function.
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
- * @deprecated Consider using validateMultiple with validatePostiveNumber, validateInteger, and validateNonZero instead.
+ * @deprecated Consider using validateMultiple with validatePositive, validateInteger, and validateNonZero instead.
  */
 export async function validatePositiveInteger (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE_INTEGER): Promise<string | undefined> {
     const value = Number(event?.value);
@@ -89,7 +89,7 @@ export async function validatePositiveInteger (event: SettingsFormFieldValidator
  * @param _context Takes the Devvit context object for compatability, but it's not used in this function.
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
- * @deprecated Consider using validateMultiple with validatePostiveNumber and validateNonZero instead.
+ * @deprecated Consider using validateMultiple with validatePositive and validateNonZero instead.
  */
 export async function validatePositiveNumber (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE): Promise<string | undefined> {
     const value = Number(event?.value);
