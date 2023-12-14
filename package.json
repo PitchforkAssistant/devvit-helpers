@@ -14,9 +14,9 @@
         "prepare": "npm run build"
     },
     "dependencies": {
-        "@devvit/protos": "0.10.7 - 0.10.10",
-        "@devvit/public-api": "0.10.7 - 0.10.10",
-        "@devvit/shared-types": "0.10.7 - 0.10.10",
+        "@devvit/protos": "0.10.7 - 0.10.11",
+        "@devvit/public-api": "0.10.7 - 0.10.11",
+        "@devvit/shared-types": "0.10.7 - 0.10.11",
         "date-fns": "^2.30.0",
         "date-fns-tz": "^2.0.0"
     },
@@ -24,14 +24,14 @@
         "@typescript-eslint/eslint-plugin": "^6.14.0",
         "@typescript-eslint/parser": "^6.14.0",
         "eslint": "^8.55.0",
-        "eslint-plugin-vitest": "^0.3.16",
+        "eslint-plugin-vitest": "^0.3.17",
         "typescript": "^5.3.3",
         "vitest": "^1.0.4"
     },
     "peerDependencies": {
-        "@devvit/protos": "0.10.7 - 0.10.10",
-        "@devvit/public-api": "0.10.7 - 0.10.10",
-        "@devvit/shared-types": "0.10.7 - 0.10.10"
+        "@devvit/protos": "0.10.7 - 0.10.11",
+        "@devvit/public-api": "0.10.7 - 0.10.11",
+        "@devvit/shared-types": "0.10.7 - 0.10.11"
     },
     "peerDependenciesMeta": {
         "@devvit/protos": {
