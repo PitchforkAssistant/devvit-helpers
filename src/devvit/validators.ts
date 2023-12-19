@@ -62,7 +62,14 @@ export async function validateCustomTimezone (event: SettingsFormFieldValidatorE
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validateCustomLocale (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_LOCALE): Promise<string | undefined> {
+export async function validateCustomLocale (event: SettingsFormFieldValidatorEvent<string | string[]>, _context?: Context, errorMessage = ERRORS.INVALID_LOCALE): Promise<string | undefined> {
+    if (Array.isArray(event?.value)) {
+        if (event?.value?.length !== 1) {
+            return errorMessage;
+        } else if (!getLocaleFromString(event?.value[0]?.toString() ?? "")) {
+            return errorMessage;
+        }
+    }
     if (!getLocaleFromString(event?.value?.toString() ?? "")) {
         return errorMessage;
     }

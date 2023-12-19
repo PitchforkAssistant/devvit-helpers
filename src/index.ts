@@ -8,3 +8,4 @@ export * from "./devvit/scheduler.js";
 export * from "./devvit/validators.js";
 export * from "./removal-reasons/generics.js";
 export * from "./removal-reasons/recommended.js";
+export * from "./constants/locales.js";

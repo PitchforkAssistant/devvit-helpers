@@ -46,6 +46,7 @@ describe("validateCustomLocale", () => {
         "enUS",
         "enGB",
         "DE",
+        ["DE"],
     ])("validateCustomLocale(%s) should return undefined", async input => {
         expect(await validateCustomLocale({value: input, isEditing: false})).toBeUndefined();
     });
@@ -53,6 +54,8 @@ describe("validateCustomLocale", () => {
     test.each([
         "_lib",
         "aww",
+        ["tifu"],
+        ["aww", "tifu"],
     ])("validateCustomLocale(%s) should return string", async input => {
         expect(await validateCustomLocale({value: input, isEditing: false})).toEqual<string>(ERRORS.INVALID_LOCALE);
     });
@@ -60,6 +63,7 @@ describe("validateCustomLocale", () => {
     test.each([
         "_lib",
         "aww",
+        ["aww", "tifu"],
     ])("validateCustomLocale(%s) should return string", async input => {
         expect(await validateCustomLocale({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
