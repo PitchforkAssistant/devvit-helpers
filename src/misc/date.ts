@@ -59,10 +59,17 @@ export function isValidDate (date: Date): boolean {
 
 /**
  * Convert a string containing a locale code to a Locale object from date-fns.
- * @param input A string containing a locale code, such as "de", "enUs", "en-US" or "en_US".
+ * @param input A string containing a locale code, such as "de", "enUs", "en-US" or "en_US". Also accepts a string array of length 1.
  * @returns A Locale object from date-fns, or undefined if the input is not a supported locale.
  */
-export function getLocaleFromString (input: string): Locale | undefined {
+export function getLocaleFromString (input: string | string[]): Locale | undefined {
+    if (Array.isArray(input)) {
+        if (input.length !== 1) {
+            return;
+        } else {
+            input = input[0];
+        }
+    }
     const processedInput = input.replace("_", "").replace("-", "").trim().toLowerCase();
 
     const locale = Object.keys(locales).find(key => key.toLowerCase() === processedInput);

@@ -28,7 +28,10 @@ test.each([
     ["EN_US", enUS],
     [" -EN_US", enUS],
     ["potato", undefined],
+    [["potato", "carrot"], undefined],
     ["DE", de],
+    [["DE"], de],
+    [["DE", "enUS"], undefined],
 ])("getLocaleFromString(%s) -> %s", (input, expected) => {
     expect(getLocaleFromString(input)).toEqual(expected);
 });
