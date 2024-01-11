@@ -10,5 +10,8 @@ import {OnTriggerEvent, TriggerContext, TriggerEvent, TriggerEventType} from "@d
  * @param context A TriggerContext object
  */
 export async function onAnyTriggerConsoleLog (event: OnTriggerEvent<TriggerEventType[TriggerEvent]>, context: TriggerContext) {
-    console.log(`type: ${event.type}\nevent:\n${JSON.stringify(event)}\ncontext:\n${JSON.stringify(context)}`);
+    // A single log that's too long sometimes doesn't show up at all, so better to do these separately.
+    console.log(`type: ${event.type}`);
+    console.log(`event:\n${JSON.stringify(event)}`);
+    console.log(`context:\n${JSON.stringify(context)}`);
 }
