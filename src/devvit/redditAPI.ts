@@ -104,11 +104,23 @@ export async function isContributor (reddit: RedditAPIClient, subredditName: str
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
  * @param subredditName The name of the subreddit as a string, without the prefix.
  * @param username The username of the user as a string, without the prefix.
- * @returns A boolean indicating whether the user is in the subreddit's approved users/contributors list.
+ * @returns A boolean indicating whether the user is banned from the subreddit.
  */
 export async function isBanned (reddit: RedditAPIClient, subredditName: string, username: string): Promise<boolean> {
     const filteredBanList = await reddit.getBannedUsers({subredditName, username}).all();
     return filteredBanList.length > 0;
+}
+
+/**
+ * This function simplifies the process of checking if a user is banned from a subreddit.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param subredditName The name of the subreddit as a string, without the prefix.
+ * @param username The username of the user as a string, without the prefix.
+ * @returns A boolean indicating whether the user is banned from the subreddit's wiki.
+ */
+export async function isWikiBanned (reddit: RedditAPIClient, subredditName: string, username: string): Promise<boolean> {
+    const filteredWikiBanList = await reddit.getBannedWikiContributors({subredditName, username}).all();
+    return filteredWikiBanList.length > 0;
 }
 
 /**
