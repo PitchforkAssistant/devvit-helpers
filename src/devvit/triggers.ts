@@ -4,6 +4,7 @@
 
 import {TriggerContext, TriggerEvent, TriggerEventType} from "@devvit/public-api";
 import {Optional} from "@devvit/shared-types/BuiltinTypes.js";
+import {printEach, stringSplitter} from "../index.js";
 
 /**
  * This function is intended to take any trigger event and log all of it to the console. Useful for seeing what each event returns.
@@ -14,8 +15,8 @@ export async function onAnyTriggerConsoleLog (event: Optional<TriggerEventType[T
     if (event.type) { // No longer present for singular event types :/
         console.log(`type: ${event.type}`);
     }
-    // A single log that's too long sometimes doesn't show up at all, so better to do these separately.
-    console.log(`event: ${JSON.stringify(event)}`);
-    console.log(`context: ${JSON.stringify(context)}`);
+    // A single log line can't be longer than ~4970 characters, so we need may need to split them into multiple lines.
+    printEach(console.log, stringSplitter(JSON.stringify(event), 4970));
+    printEach(console.log, stringSplitter(JSON.stringify(context), 4970));
 }
 

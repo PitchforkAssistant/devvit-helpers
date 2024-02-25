@@ -1,4 +1,4 @@
-import {domainFromUrlString} from "../src/misc/misc.js";
+import {domainFromUrlString, stringSplitter} from "../src/misc/misc.js";
 
 // URL, expected output.
 test.each([
@@ -13,4 +13,13 @@ test.each([
     ["https://cdn.discordapp.com/attachments/1122823169997295626/1129349737477320734/image.png", "cdn.discordapp.com"],
 ])("domainFromUrlString(%s) -> %s", (url, expected) => {
     expect(domainFromUrlString(url)).toEqual(expected);
+});
+
+// String, maxLen, expected output.
+test.each([
+    ["abcd", 2, ["ab", "cd"]],
+    ["abcd", 10, ["abcd"]],
+    ["abcd", 3, ["abc", "d"]],
+])("domainFromUrlString(%s) -> %s", (str, maxLen, expected) => {
+    expect(stringSplitter(str, maxLen)).toEqual(expected);
 });

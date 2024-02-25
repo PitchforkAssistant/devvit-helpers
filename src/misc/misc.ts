@@ -24,3 +24,25 @@ export function domainFromUrlString (url: string, defaultValue = ""): string {
         return defaultValue;
     }
 }
+
+/**
+ * Print each item in an array to the console.
+ * @param func The function to use for printing each item in the array, such as console.log or console.error.
+ * @param array The array of items to print.
+ */
+export function printEach (func: (message: unknown) => void, array: unknown[]) {
+    for (const item of array) {
+        func(item);
+    }
+}
+
+/**
+ * Takes a string as an input and returns an array of strings, each of which is no longer than the specified maximum length.
+ * @param str Full string
+ * @param maxLen Maximum length of each string in the output array
+ * @returns An array of strings, each of which is no longer than the specified maximum length.
+ */
+export function stringSplitter (str: string, maxLen: number): string[] {
+    const regex = new RegExp(`.{1,${maxLen}}`, "g");
+    return str.match(regex) || [];
+}
