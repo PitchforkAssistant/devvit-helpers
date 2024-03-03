@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.2.37",
+    "version": "0.2.38",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
