@@ -14,15 +14,15 @@
         "prepare": "npm run build"
     },
     "dependencies": {
-        "@devvit/protos": "0.10.16",
-        "@devvit/public-api": "0.10.16",
-        "@devvit/shared-types": "0.10.16",
+        "@devvit/protos": "0.10.17",
+        "@devvit/public-api": "0.10.17",
+        "@devvit/shared-types": "0.10.17",
         "date-fns": "^2.30.0",
         "date-fns-tz": "^2.0.0"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^7.0.2",
-        "@typescript-eslint/parser": "^7.0.2",
+        "@typescript-eslint/eslint-plugin": "^7.1.0",
+        "@typescript-eslint/parser": "^7.1.0",
         "eslint": "^8.57.0",
         "eslint-plugin-vitest": "^0.3.22",
         "typescript": "^5.3.3",
