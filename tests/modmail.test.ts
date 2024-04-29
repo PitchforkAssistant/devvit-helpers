@@ -1,6 +1,7 @@
-import {ConversationData} from "@devvit/public-api";
-import {compareConversations, getLastConversation, sortConversations} from "../src/devvit/modmail.js";
+import {ConversationData, MessageData} from "@devvit/public-api";
+import {ModmailConversationPermalink, ModmailMessagePermalink, compareConversations, getLastConversation, getModmailPermalink, sortConversations} from "../src/devvit/modmail.js";
 import {ConversationSort} from "../src/devvit/modmail.js";
+import {ModMail} from "@devvit/protos";
 
 const oldestConversation: ConversationData = {lastUpdated: new Date("2000-01-01").toISOString(), authors: [], messages: {}, modActions: {}};
 const olderConversation: ConversationData = {lastUpdated: new Date("2010-01-01").toISOString(), authors: [], messages: {}, modActions: {}};
@@ -58,5 +59,36 @@ describe("getLastConversation", () => {
         const result = getLastConversation(conversations, sort);
 
         expect(result).toEqual(oldestConversation);
+    });
+});
+
+describe("getModmailPermalink", () => {
+    const convoUrl: ModmailConversationPermalink = "https://mod.reddit.com/mail/perma/convoId";
+    const messageUrl: ModmailMessagePermalink = "https://mod.reddit.com/mail/perma/convoId/messageId";
+
+    it("should return the correct permalink with strings", () => {
+        expect(getModmailPermalink("convoId", "messageId")).toBe(messageUrl);
+        expect(getModmailPermalink("convoId")).toBe(convoUrl);
+        expect(getModmailPermalink("convoId", "")).toBe(convoUrl);
+        expect(getModmailPermalink("ModmailConversation_convoId", "ModmailMessage_messageId")).toBe(messageUrl);
+        expect(getModmailPermalink("", "")).toBeUndefined();
+        expect(getModmailPermalink("", "messageId")).toBeUndefined();
+    });
+
+    const convoData = {id: "convoId"} as ConversationData;
+    const messageData = {id: "messageId"} as MessageData;
+
+    it("should return the correct permalink with data objects", () => {
+        expect(getModmailPermalink(convoData)).toBe(convoUrl);
+        expect(getModmailPermalink(convoData, messageData)).toBe(messageUrl);
+        expect(getModmailPermalink("convoId", messageData)).toBe(messageUrl);
+        expect(getModmailPermalink(convoData, "messageId")).toBe(messageUrl);
+        expect(getModmailPermalink("", messageData)).toBeUndefined();
+    });
+
+    const modmailEvent = {conversationId: "convoId", messageId: "messageId"} as ModMail;
+    it("should return the correct permalink with a ModMail event object", () => {
+        expect(getModmailPermalink(modmailEvent)).toBe(messageUrl);
+        expect(getModmailPermalink(modmailEvent, "")).toBe(convoUrl);
     });
 });

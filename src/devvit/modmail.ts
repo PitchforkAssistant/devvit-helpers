@@ -1,4 +1,5 @@
-import {ConversationData, GetConversationsRequest, ModMailService} from "@devvit/public-api";
+import {ModMail} from "@devvit/protos";
+import {ConversationData, GetConversationsRequest, MessageData, ModMailService} from "@devvit/public-api";
 
 /**
  * Sort by:
@@ -152,4 +153,50 @@ export async function getModmailConversations (modmail: ModMailService, options:
     // That's because we sorted each page individually
     // While page contents may be out of order, the pages themselves are in order (fingers crossed)
     return conversations;
+}
+
+export type ModmailConversationPermalink = `https://mod.reddit.com/mail/perma/${string}`;
+export type ModmailMessagePermalink = `https://mod.reddit.com/mail/perma/${string}/${string}`;
+
+/**
+ * This function creates a permalink to a modmail conversation or message.
+ * @param conversation Conversation ID as a string, a ConversationData object, or a ModMail event object
+ * @param message Message ID, MessageData object, or undefined. If undefined, the permalink will point to the conversation, unless the conversation object is the ModMail event object
+ * @returns Permalink to the conversation or message, or undefined if at least the conversation ID is not found
+ */
+export function getModmailPermalink (conversation: string | ConversationData | ModMail, message?: string | MessageData): ModmailConversationPermalink | ModmailMessagePermalink | undefined {
+    let conversationId = "";
+    let messageId = "";
+
+    if (typeof conversation === "string") {
+        conversationId = conversation;
+    } else if (typeof conversation === "object") {
+        if ("conversationId" in conversation) {
+            conversationId = conversation.conversationId;
+
+            if (!message) {
+                messageId = conversation.messageId;
+            }
+        } else if ("id" in conversation) {
+            conversationId = conversation.id ?? "";
+        }
+    }
+
+    if (typeof message === "string") {
+        messageId = message;
+    } else if (typeof message === "object" && "id" in message) {
+        messageId = message.id ?? "";
+    }
+
+    // In some cases the ID may be prefixed
+    conversationId = conversationId.replace("ModmailConversation_", "");
+    messageId = messageId.replace("ModmailMessage_", "");
+
+    if (messageId && conversationId) {
+        return `https://mod.reddit.com/mail/perma/${conversationId}/${messageId}`;
+    }
+
+    if (conversationId) {
+        return `https://mod.reddit.com/mail/perma/${conversationId}`;
+    }
 }
