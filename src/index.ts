@@ -6,6 +6,7 @@ export * from "./devvit/redditAPI.js";
 export * from "./devvit/triggers.js";
 export * from "./devvit/scheduler.js";
 export * from "./devvit/validators.js";
+export * from "./devvit/modmail.js";
 export * from "./removal-reasons/generics.js";
 export * from "./removal-reasons/recommended.js";
 export * from "./constants/locales.js";
