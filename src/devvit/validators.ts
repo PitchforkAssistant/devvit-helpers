@@ -5,7 +5,7 @@
 import {Context, SettingsFormFieldValidatorEvent, OnValidateHandler} from "@devvit/public-api";
 import {getTimezoneOffset} from "date-fns-tz";
 import {enUS} from "date-fns/locale";
-import {getLocaleFromString, safeFormatInTimeZone} from "../misc/date.js";
+import {getLocaleFromString, isCustomDateformat} from "../misc/date.js";
 import {ERRORS} from "../constants/errors.js";
 
 /**
@@ -36,8 +36,8 @@ export async function validateMultiple<ValueType> (validators: OnValidateHandler
  * @param errorMessage The error message to return if the validation fails, returns a default error message if not specified.
  * @returns The error message if the validation fails, or undefined if it passes.
  */
-export async function validateCustomDateformat (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_DATE_TEMPLATE): Promise<string | undefined> {
-    if (!safeFormatInTimeZone(new Date(), {dateformat: event?.value?.toString() ?? "", timezone: "UTC", locale: enUS})) {
+export async function validateCustomDateformat (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_TIMEFORMAT): Promise<string | undefined> {
+    if (!isCustomDateformat({dateformat: event.value?.toString() ?? "", timezone: "UTC", locale: enUS})) {
         return errorMessage;
     }
 }

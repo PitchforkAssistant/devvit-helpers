@@ -11,8 +11,35 @@ test("validateMultiple should return undefined for a valid value", async () => {
     expect(await validateMultiple([validateNumber, validateNonZero], {value: 0, isEditing: false}, {} as Context, "test")).toEqual("test");
 });
 
-test("validateCustomTimeformat should return nothing for a valid timeformat", async () => {
-    expect(await validateCustomDateformat({value: "yyyy-MM-dd HH:mm:ss", isEditing: false})).toBeUndefined();
+describe("validateCustomDateformat", () => {
+    test.each([
+        "yyyy-MM-dd HH:mm:ss",
+        "yyyy-MM-dd",
+        "yyyy-MM-dd HH:mm",
+        "HH:mm:ss",
+        "HH:mm",
+        " ",
+        "yyyy",
+    ])("validateCustomDateformat(%s) should return undefined", async input => {
+        expect(await validateCustomDateformat({value: input, isEditing: false})).toBeUndefined();
+    });
+
+    test.each([
+        "clearly shouldn't be valid",
+        "🙃 random text",
+        "qwerty",
+        "",
+        undefined,
+    ])("validateCustomDateformat(%s) should return string", async input => {
+        expect(await validateCustomDateformat({value: input, isEditing: false})).toEqual(ERRORS.INVALID_TIMEFORMAT);
+    });
+
+    test.each([
+        "invalid format",
+        undefined,
+    ])("validateCustomDateformat(%s) should return string", async input => {
+        expect(await validateCustomDateformat({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    });
 });
 
 describe("validateCustomTimezone", () => {
