@@ -3,76 +3,100 @@
  */
 
 import {ModActionType, RedditAPIClient, Comment, Post, ModAction, ModeratorPermission} from "@devvit/public-api";
-import {getTimeDeltaInSeconds} from "../misc/date.js";
 import {valueToArrayOrUndefined} from "../misc/converters.js";
+
+export type GetModerationLogOptions = {
+    subredditName: string,
+    actionType?: ModActionType | ModActionType[],
+    moderators?: string | string[],
+    limit?: number,
+    sort?: boolean,
+}
 
 /**
  * This function lets you fetch the moderation log with multiple action types at once.
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
- * @param subredditName Subreddit name as a string (no prefix).
- * @param actionType Optionally filter by action type, one of the strings from ModActionType or an array of them.
- * @param moderators Optionally filter by moderator, one or more usernames (no prefix) or an array of them.
- * @param limit The number of actions to fetch, this is for each actionType. Defaults to 100, the maximum allowed in a single request.
+ * @param options GetModerationLogOptions object with the following properties:
+ * @param options.subredditName Subreddit name as a string (no prefix).
+ * @param options.actionType (optional) Filter by action type, takes ModActionType or an array of them. Defaults to no filtering (all action types).
+ * @param options.moderators (optional) Filter by moderator username, takes a username (no prefix) or an array of them. Defaults to no filtering (all mods).
+ * @param options.limit (optional) Only fetch this many of each specified action type. Defaults to 100, the maximum allowed in a single request.
+ * @param options.sort (optional) Sort the logs by date, newest first. Defaults to off, but the fetch returns them as sorted if one or no action types are specified.
  * @returns A list of mod actions.
  */
-export async function getModerationLog (reddit: RedditAPIClient, subredditName: string, actionType?: ModActionType[], moderators?: string | string[], limit = 100): Promise<ModAction[]> {
-    const moderatorUsernames = valueToArrayOrUndefined<string>(moderators);
-    const actionTypes = valueToArrayOrUndefined<ModActionType>(actionType);
-    if (!actionTypes) {
-        return reddit.getModerationLog({subredditName, moderatorUsernames, limit, pageSize: 100}).all();
-    } else {
-        const actionChecks = actionTypes.map(actionType => reddit.getModerationLog({subredditName, moderatorUsernames, type: actionType, limit, pageSize: 100}).all());
-        const results = await Promise.all(actionChecks);
-        return results.flat();
+export async function getModerationLog (reddit: RedditAPIClient, options: GetModerationLogOptions): Promise<ModAction[]> {
+    const types = valueToArrayOrUndefined(options.actionType);
+    const moderatorUsernames = valueToArrayOrUndefined(options.moderators);
+    const pageSize = Math.min(options.limit ?? 100, 100); // Unless less than 100 are requested, we should fetch the maximum per page.
+
+    // If the action type is not specified or there is only one, we can directly return the result because we don't need to merge multiple action types.
+    if (!types) {
+        return reddit.getModerationLog({subredditName: options.subredditName, moderatorUsernames, limit: options.limit, pageSize}).all();
+    } else if (types.length === 1) {
+        return reddit.getModerationLog({subredditName: options.subredditName, moderatorUsernames, type: types[0], limit: options.limit, pageSize}).all();
     }
+
+    // We now know there are multiple action types, so we need to fetch them separately and merge the results.
+    const unsortedLogs = (
+        await Promise.all(types.map(type => reddit.getModerationLog({subredditName: options.subredditName, moderatorUsernames, type, limit: options.limit, pageSize})
+            .all()))).flat();
+
+    // If sorting isn't required, we can return the result now.
+    if (!options.sort) {
+        return unsortedLogs;
+    }
+
+    // If sorting is required, we need to sort the logs by date.
+    return unsortedLogs.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+}
+
+export type HasPerformedActionsOptions = {
+    subredditName: string,
+    actionTargetId: string,
+    actionTypes: ModActionType | ModActionType[],
+    moderators?: string | string[],
+    includeParent?: boolean,
+    newestCutoff?: Date,
+    oldestCutoff?: Date,
+    limit?: number
 }
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
- * @param subredditName Subreddit name as a string (no prefix).
- * @param actionTargetId Action target ID, should be the prefixed ID of a post, comment, or user.
- * @param actionType Type of moderation action as one of the strings from ModActionType.
- * @param moderators Limits the search to a moderator or list of moderator usernames (no prefix). Defaults to all moderators.
- * @param includeRelatives Also check whether the action has been performed on a post or any of its comments. Defaults to off.
- * @param cutoffSeconds Any actions older than this many seconds will not be considered a match. Defaults to off.
- * @param limit The number of actions to fetch. Defaults to 100, the maximum allowed in a single request.
- * @returns A boolean indicating whether the action has been performed.
+ * @param options HasPerformedActionsOptions object with the following properties:
+ * @param options.subredditName Subreddit name as a string (no prefix).
+ * @param options.actionTargetId Action target ID, should be the prefixed ID of a post, comment, or user.
+ * @param options.actionTypes Either ModActionType or a list of them of moderation action types as strings from ModActionType.
+ * @param options.moderators (optional) Limits the search to a moderator or list of moderator usernames (no prefix). Defaults to any moderator.
+ * @param options.includeParent (optional) This allows you to specify the actionTargetId as a postId and check if a moderator has performed the action on the post or any of its comments. Defaults to off.
+ * @param options.newestCutoff (optional) Any actions newer than this date will not be considered a match. Defaults to off.
+ * @param options.oldestCutoff (optional) Any actions older than this date will not be considered a match. Defaults to off.
+ * @param options.limit (optional) This will limit the number of moderation log entries fetched for each specified action type. Defaults to everything.
  */
-export async function hasPerformedAction (reddit: RedditAPIClient, subredditName: string, actionTargetId: string, actionType: ModActionType, moderators?: string | string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
-    const moderatorUsernames = valueToArrayOrUndefined<string>(moderators);
-    const modLog = await reddit.getModerationLog({subredditName, moderatorUsernames, type: actionType, limit, pageSize: 100}).all().catch(e => {
-        console.error(`Failed to fetch ${actionType} log for ${subredditName} by ${moderatorUsernames?.join(",") ?? ""}`, e);
-        return [];
+export async function hasPerformedActions (reddit: RedditAPIClient, options: HasPerformedActionsOptions): Promise<boolean> {
+    const modLog = await getModerationLog(reddit, {
+        subredditName: options.subredditName,
+        actionType: options.actionTypes,
+        moderators: options.moderators,
+        limit: options.limit,
     });
+
     for (const modAction of modLog) {
-        if (!cutoffSeconds || getTimeDeltaInSeconds(new Date(), modAction.createdAt) < cutoffSeconds) {
-            if (modAction.target?.id === actionTargetId) {
-                return true;
-            } else if (includeParent && modAction.target?.permalink?.startsWith(`/r/${subredditName}/comments/${actionTargetId.substring(3)}/`)) {
-                return true;
-            }
+        if (options.newestCutoff && modAction.createdAt > options.newestCutoff) {
+            continue;
+        }
+        if (options.oldestCutoff && modAction.createdAt < options.oldestCutoff) {
+            continue;
+        }
+
+        if (modAction.target?.id === options.actionTargetId) {
+            return true;
+        } else if (options.includeParent && modAction.target?.permalink?.includes(`comments/${options.actionTargetId.substring(3)}`)) {
+            return true;
         }
     }
     return false;
-}
-
-/**
- * This function lets you use hasPerformedAction() with multiple action types at once.
- * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
- * @param subredditName Subreddit name as a string (no prefix).
- * @param actionTargetId Action target ID, should be the prefixed ID of a post, comment, or user.
- * @param actionTypes List of moderation action types as strings from ModActionType.
- * @param moderators Limits the search to a list of moderator usernames (no prefix). Defaults to all moderators.
- * @param includeRelatives Also check whether the action has been performed on a post or any of its comments. Defaults to off.
- * @param cutoffSeconds Any actions older than this many seconds will not be considered a match. Defaults to off.
- * @param limit The number of actions to fetch. Defaults to 100, the maximum allowed in a single request.
- * @returns A boolean indicating whether any of actions have been performed.
- */
-export async function hasPerformedActions (reddit: RedditAPIClient, subredditName: string, actionTargetId: string, actionTypes: ModActionType[], moderators?: string | string[], includeParent?: boolean, cutoffSeconds?: number, limit = 100): Promise<boolean> {
-    const actionChecks = actionTypes.map(actionType => hasPerformedAction(reddit, subredditName, actionTargetId, actionType, moderators, includeParent, cutoffSeconds, limit));
-    const results = await Promise.all(actionChecks);
-    return results.includes(true);
 }
 
 /**
