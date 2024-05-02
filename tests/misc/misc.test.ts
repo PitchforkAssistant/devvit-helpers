@@ -1,4 +1,4 @@
-import {domainFromUrlString, stringSplitter} from "../src/misc/misc.js";
+import {domainFromUrlString, stringSplitter} from "../../src/misc/misc.js";
 
 // URL, expected output.
 test.each([

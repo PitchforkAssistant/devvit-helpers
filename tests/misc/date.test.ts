@@ -1,6 +1,6 @@
 import {de, enUS, frCA} from "date-fns/locale";
-import {getLocaleFromString, getTimeDeltaInSeconds, isCustomDateformat, isValidDate, safeFormatInTimeZone} from "../src/misc/date.js";
-import {LOCALE_OPTIONS} from "../src/constants/locales.js";
+import {getLocaleFromString, getTimeDeltaInSeconds, isCustomDateformat, isValidDate, safeFormatInTimeZone} from "../../src/misc/date.js";
+import {LOCALE_OPTIONS} from "../../src/constants/locales.js";
 
 // Date object, timeformat, expected output.
 test.each([
