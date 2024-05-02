@@ -239,3 +239,24 @@ export async function hasPermissions (reddit: RedditAPIClient, subredditName: st
         return requiredPerms.every(requiredPerm => actualPerms.includes(requiredPerm));
     }
 }
+
+/**
+ * Gets the stickied comment of a post, if it exists.
+ * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
+ * @param postId Full post ID, should look like t3_abc123.
+ * @returns The stickied comment if it exists, otherwise undefined.
+ */
+export async function getStickiedComment (reddit: RedditAPIClient, postId: string): Promise<Comment | undefined> {
+    // We only need to fetch one comment because if there is a stickied comment, it will be always be the first one.
+    const comments = await reddit.getComments({
+        postId,
+        limit: 1,
+        depth: 1,
+    }).all();
+    // We'll only ever get 0 or 1 comments, so return the first one if it exists and is stickied.
+    for (const comment of comments) {
+        if (comment.isStickied()) {
+            return comment;
+        }
+    }
+}
