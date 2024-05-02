@@ -1,4 +1,5 @@
 import {ERRORS} from "../../src/constants/errors.js";
+import {LOCALE_OPTIONS} from "../../src/constants/locales.js";
 import {validateCustomDateformat, validateCustomLocale, validateCustomTimezone} from "../../src/validators/date.js";
 
 describe("validateCustomDateformat", () => {
@@ -81,5 +82,9 @@ describe("validateCustomLocale", () => {
         ["aww", "tifu"],
     ])("validateCustomLocale(%s) should return string", async input => {
         expect(await validateCustomLocale({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    });
+
+    test.each([...LOCALE_OPTIONS])("validateCustomLocale(%s) should validate with all LOCALE_OPTIONS", async input => {
+        expect(await validateCustomLocale({...input, isEditing: false})).toBeUndefined();
     });
 });
