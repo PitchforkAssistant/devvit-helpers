@@ -1,5 +1,6 @@
 import {de, enUS, frCA} from "date-fns/locale";
-import {getLocaleFromString, getTimeDeltaInSeconds, isCustomDateformat, isValidDate, safeFormatInTimeZone} from "../src/misc/date.js";
+import {getLocaleFromString, getTimeDeltaInSeconds, isCustomDateformat, isValidDate, safeFormatInTimeZone} from "../../src/misc/date.js";
+import {LOCALE_OPTIONS} from "../../src/constants/locales.js";
 
 // Date object, timeformat, expected output.
 test.each([
@@ -21,19 +22,25 @@ test.each([
 });
 
 // String, expected output.
-test.each([
-    ["enUS", enUS],
-    ["ENUS", enUS],
-    ["EN-US", enUS],
-    ["EN_US", enUS],
-    [" -EN_US", enUS],
-    ["potato", undefined],
-    [["potato", "carrot"], undefined],
-    ["DE", de],
-    [["DE"], de],
-    [["DE", "enUS"], undefined],
-])("getLocaleFromString(%s) -> %s", (input, expected) => {
-    expect(getLocaleFromString(input)).toEqual(expected);
+describe("getLocaleFromString", () => {
+    test.each([
+        ["enUS", enUS],
+        ["ENUS", enUS],
+        ["EN-US", enUS],
+        ["EN_US", enUS],
+        [" -EN_US", enUS],
+        ["potato", undefined],
+        [["potato", "carrot"], undefined],
+        ["DE", de],
+        [["DE"], de],
+        [["DE", "enUS"], undefined],
+    ])("getLocaleFromString(%s) -> %s", (input, expected) => {
+        expect(getLocaleFromString(input)).toEqual(expected);
+    });
+
+    test.each([...LOCALE_OPTIONS])("getLocaleFromString(%s) should be defined with all LOCALE_OPTIONS", async input => {
+        expect(getLocaleFromString(input.value)).toBeDefined();
+    });
 });
 
 // Date object, Date object, expected output.

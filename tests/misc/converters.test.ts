@@ -1,4 +1,4 @@
-import {toNumberOrDefault, toStringOrDefault, valueToArrayOrUndefined} from "../src/misc/converters.js";
+import {toNumberOrDefault, toStringOrDefault, valueToArrayOrUndefined} from "../../src/misc/converters.js";
 
 // String, fallback, expected output.
 test.each([

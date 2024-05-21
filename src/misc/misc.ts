@@ -2,6 +2,8 @@
  * @file This file is home to a collection of miscellaneous helper functions.
  */
 
+import {chunk} from "lodash";
+
 /**
  * Get the hostname component of a string containing a URL, or return the default value if the string is not a valid URL.
  * @param urlString A URL in the form of a string.
@@ -41,8 +43,8 @@ export function printEach (func: (message: unknown) => void, array: unknown[]) {
  * @param str Full string
  * @param maxLen Maximum length of each string in the output array
  * @returns An array of strings, each of which is no longer than the specified maximum length.
+ * @deprecated Use lodash.chunk(str, maxLen).map(chunk => chunk.join("")) instead.
  */
 export function stringSplitter (str: string, maxLen: number): string[] {
-    const regex = new RegExp(`.{1,${maxLen}}`, "g");
-    return str.match(regex) || [];
+    return chunk(str, maxLen).map(chunk => chunk.join(""));
 }

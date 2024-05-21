@@ -2,12 +2,13 @@
  * @file Contains functions to generate removal reasons from posts and mod actions using recommended placeholders.
  */
 
-import {Post} from "@devvit/public-api";
-import {CommentV2, ModAction, PostV2, SubredditV2, UserV2} from "@devvit/protos";
+import {Post, RedditAPIClient} from "@devvit/public-api";
+import {CommentV2, ModAction, PostFlairUpdate, PostV2, SubredditV2, UserV2} from "@devvit/protos";
 import {Placeholder, PlaceholderGetters, getPlaceholdersFromGetters} from "./generics.js";
 import {domainFromUrlString} from "../misc/misc.js";
 import {CustomDateformat, safeFormatInTimeZone} from "../misc/date.js";
 import {isLinkId} from "@devvit/shared-types/tid.js";
+import {getUsernameFromUserId, isBanned} from "../devvit/redditAPI.js";
 
 export type RecommendedPlaceholderKeys = "{{author}}" | "{{subreddit}}" | "{{body}}" | "{{title}}" | "{{kind}}" | "{{permalink}}" | "{{url}}" | "{{link}}" | "{{domain}}" | "{{author_id}}" | "{{subreddit_id}}" | "{{id}}" | "{{link_flair_text}}" | "{{link_flair_css_class}}" | "{{link_flair_template_id}}" | "{{author_flair_text}}" | "{{author_flair_css_class}}" | "{{author_flair_template_id}}" | "{{time_iso}}" | "{{time_unix}}" | "{{time_custom}}" | "{{created_iso}}" | "{{created_unix}}" | "{{created_custom}}" | "{{actioned_iso}}" | "{{actioned_unix}}" | "{{actioned_custom}}";
 
@@ -134,4 +135,73 @@ export async function getRecommendedPlaceholdersFromModAction (action: ModAction
         }
         return placeholders;
     }
+}
+
+/**
+ * Returns the placeholders for a PostFlairUpdate event by mimicing a ModAction of type "editflair".
+ * @param event PostFlairUpdate object.
+ * @param reddit Reddit API client, this is used to fetch data about the post author if the flair was updated by a different user (i.e. a moderator).
+ * @param customDateformat Custom Dateformat object.
+ * @param updatedAt Date object of when the flair was updated, defaults to now.
+ */
+export async function getRecommendedPlaceholdersFromPostFlairUpdate (event: PostFlairUpdate, reddit: RedditAPIClient, customDateformat?: CustomDateformat, updatedAt?: Date): Promise<Placeholder[]> {
+    if (!event.subreddit || !event.post || !event.author) {
+        throw new Error("PostFlairUpdate does not contain required subreddit, post, and author properties.");
+    }
+
+    if (!updatedAt) {
+        updatedAt = new Date();
+    }
+
+    let moderator;
+    let targetUser = event.author;
+    if (event.post.authorId !== event.author.id) {
+        moderator = event.author;
+
+        try {
+            const postAuthor = await reddit.getUserById(event.post.authorId);
+            targetUser = {
+                id: event.post.authorId,
+                name: postAuthor.username,
+                flair: event.post.authorFlair,
+                karma: postAuthor.commentKarma + postAuthor.linkKarma,
+                isGold: Boolean(event.post.gildings), // User object doesn't contain the gold status, so this is the best guess we can make
+                banned: await isBanned(reddit, event.subreddit.name, postAuthor.username),
+                spam: false,
+                url: postAuthor.url,
+                snoovatarImage: await postAuthor.getSnoovatarUrl().catch(() => "") ?? "",
+                iconImage: await postAuthor.getSnoovatarUrl().catch(() => "") ?? "",
+            };
+        } catch (error) {
+            // This mostly handles shadowbanned, deleted, or suspended users.
+
+            targetUser = {
+                id: event.post.authorId,
+                name: await getUsernameFromUserId(reddit, event.post.authorId), // This function will extract the username from the exception if possible.
+                flair: event.post.authorFlair,
+                karma: event.post.score, // If we can't get the user's karma, this is the best guess we can make.
+                snoovatarImage: "",
+                iconImage: "",
+                isGold: Boolean(event.post.gildings), // User object doesn't contain the gold status, so this is the best guess we can make
+                banned: false,
+                spam: true,
+                url: "",
+            };
+
+            if (targetUser.name) {
+                targetUser.banned = await isBanned(reddit, event.subreddit.name, targetUser.name).catch(() => false);
+                targetUser.url = `https://reddit.com/user/${targetUser.name}`;
+            }
+        }
+    }
+
+    const modAction: ModAction & {targetPost: PostV2} = {
+        action: "editflair",
+        actionedAt: updatedAt,
+        subreddit: event.subreddit,
+        targetPost: event.post,
+        targetUser,
+        moderator,
+    };
+    return getRecommendedPlaceholdersFromModAction(modAction, customDateformat);
 }
