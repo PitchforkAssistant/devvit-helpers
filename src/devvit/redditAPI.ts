@@ -219,16 +219,23 @@ export async function getUsernameFromUserId (reddit: RedditAPIClient, userId: st
     }
 }
 
+export type HasPermissionsOptions = {
+    subredditName: string,
+    username: string,
+    requiredPerms?: ModeratorPermission | ModeratorPermission[]
+}
+
 /**
  * This function lets you quickly check which permissions a user has on a subreddit with just the username and subreddit name.
  * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
- * @param subredditName The name of the subreddit as a string, without the prefix.
- * @param username The username of the user as a string, without the prefix.
- * @param requiredPerms The user must have all of these permissions to return true, can be a ModeratorPermission string or array of them. If omitted, the function will return true if the user has any permissions.
+ * @param options.subredditName The name of the subreddit as a string, without the prefix.
+ * @param options.username The username of the user as a string, without the prefix.
+ * @param options.requiredPerms The user must have all of these permissions to return true, can be a ModeratorPermission string or array of them. If omitted, the function will return true if the user has any permissions.
  * @returns A boolean indicating whether the user has the required permissions.
  */
-export async function hasPermissions (reddit: RedditAPIClient, subredditName: string, username: string, requiredPerms?: ModeratorPermission | ModeratorPermission[]): Promise<boolean> {
-    requiredPerms = valueToArrayOrUndefined<ModeratorPermission>(requiredPerms);
+export async function hasPermissions (reddit: RedditAPIClient, options: HasPermissionsOptions): Promise<boolean> {
+    const {subredditName, username} = options;
+    const requiredPerms = valueToArrayOrUndefined<ModeratorPermission>(options.requiredPerms);
     const user = await reddit.getUserByUsername(username);
     const actualPerms = await user.getModPermissionsForSubreddit(subredditName);
     if (actualPerms.includes("all")) {
