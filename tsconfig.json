@@ -2,7 +2,10 @@
     "extends": "@devvit/public-api/devvit.tsconfig.json",
     "compilerOptions": {
         "target": "ES2020",
-        "lib": ["ES2022", "WebWorker"],
+        "lib": [
+            "ES2022",
+            "WebWorker"
+        ],
         "resolveJsonModule": true,
         "declaration": true,
         "outDir": "dist",
@@ -12,7 +15,9 @@
         "moduleResolution": "NodeNext",
     },
     "exclude": [
-        "node_modules",
+        "**/node_modules",
         "dist",
+        "**/.*/",
+        "eslint.config.mjs"
     ]
 }
