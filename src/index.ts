@@ -5,6 +5,7 @@ export * from "./devvit/post.js";
 export * from "./devvit/redditAPI.js";
 export * from "./devvit/triggers.js";
 export * from "./devvit/scheduler.js";
+export * from "./devvit/redis.js";
 export * from "./validators/meta.js";
 export * from "./validators/date.js";
 export * from "./validators/numbers.js";
