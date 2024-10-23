@@ -180,8 +180,9 @@ export async function getRecommendedPlaceholdersFromPostFlairUpdate (event: Post
                 snoovatarImage: await postAuthor.getSnoovatarUrl().catch(() => "") ?? "",
                 iconImage: await postAuthor.getSnoovatarUrl().catch(() => "") ?? "",
                 description: "",
+                suspended: false,
             };
-        } catch (error) {
+        } catch {
             // This mostly handles shadowbanned, deleted, or suspended users.
 
             targetUser = {
@@ -196,6 +197,7 @@ export async function getRecommendedPlaceholdersFromPostFlairUpdate (event: Post
                 spam: true,
                 url: "",
                 description: "",
+                suspended: true,
             };
 
             if (targetUser.name) {
