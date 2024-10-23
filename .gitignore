@@ -53,6 +53,7 @@ web_modules/
 
 # Optional eslint cache
 .eslintcache
+eslint.config.d.mts
 
 # Optional stylelint cache
 .stylelintcache

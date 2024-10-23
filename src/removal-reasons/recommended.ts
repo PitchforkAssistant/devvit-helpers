@@ -3,12 +3,17 @@
  */
 
 import {Post, RedditAPIClient} from "@devvit/public-api";
-import {CommentV2, ModAction, PostFlairUpdate, PostV2, SubredditV2, UserV2} from "@devvit/protos";
+import {SubredditV2} from "@devvit/protos/types/devvit/reddit/v2alpha/subredditv2.js";
+import {PostV2} from "@devvit/protos/types/devvit/reddit/v2alpha/postv2.js";
+import {UserV2} from "@devvit/protos/types/devvit/reddit/v2alpha/userv2.js";
+import {CommentV2} from "@devvit/protos/types/devvit/reddit/v2alpha/commentv2.js";
+import {ModAction} from "@devvit/protos/types/devvit/reddit/v2alpha/modaction.js";
+import {PostFlairUpdate} from "@devvit/protos/types/devvit/events/v1alpha/events.js";
 import {Placeholder, PlaceholderGetters, getPlaceholdersFromGetters} from "./generics.js";
 import {domainFromUrlString} from "../misc/misc.js";
 import {CustomDateformat, safeFormatInTimeZone} from "../misc/date.js";
 import {isLinkId} from "@devvit/shared-types/tid.js";
-import {getUsernameFromUserId, isBanned} from "../devvit/redditAPI.js";
+import {isBanned} from "../devvit/redditAPI.js";
 
 export type RecommendedPlaceholderKeys = "{{author}}" | "{{subreddit}}" | "{{body}}" | "{{title}}" | "{{kind}}" | "{{permalink}}" | "{{url}}" | "{{link}}" | "{{domain}}" | "{{author_id}}" | "{{subreddit_id}}" | "{{id}}" | "{{link_flair_text}}" | "{{link_flair_css_class}}" | "{{link_flair_template_id}}" | "{{author_flair_text}}" | "{{author_flair_css_class}}" | "{{author_flair_template_id}}" | "{{time_iso}}" | "{{time_unix}}" | "{{time_custom}}" | "{{created_iso}}" | "{{created_unix}}" | "{{created_custom}}" | "{{actioned_iso}}" | "{{actioned_unix}}" | "{{actioned_custom}}";
 
@@ -30,8 +35,8 @@ export const RecommendedPlaceholderGettersFromPost: PlaceholderGetters<Recommend
     "{{link_flair_text}}": async post => post.flair?.text ?? "",
     "{{link_flair_css_class}}": async post => post.flair?.cssClass ?? "",
     "{{link_flair_template_id}}": async post => post.flair?.templateId ?? "",
-    "{{author_flair_text}}": async post => (await (await post.getAuthor()).getUserFlairBySubreddit(post.subredditName))?.flairText ?? "", // Post object does not currently contain author flair.
-    "{{author_flair_css_class}}": async post => (await (await post.getAuthor()).getUserFlairBySubreddit(post.subredditName))?.flairCssClass ?? "", // Post object does not currently contain author flair.
+    "{{author_flair_text}}": async post => (await (await post.getAuthor())?.getUserFlairBySubreddit(post.subredditName))?.flairText ?? "", // Post object does not currently contain author flair.
+    "{{author_flair_css_class}}": async post => (await (await post.getAuthor())?.getUserFlairBySubreddit(post.subredditName))?.flairCssClass ?? "", // Post object does not currently contain author flair.
     "{{author_flair_template_id}}": async () => "", // Post object does not currently contain author flair and getUserFlairBySubreddit doesn't return the template ID.
     "{{time_iso}}": async () => new Date().toISOString(),
     "{{time_unix}}": async () => (new Date().getTime() / 1000).toString(),
@@ -160,6 +165,9 @@ export async function getRecommendedPlaceholdersFromPostFlairUpdate (event: Post
 
         try {
             const postAuthor = await reddit.getUserById(event.post.authorId);
+            if (!postAuthor) {
+                throw new Error("User undefined.");
+            }
             targetUser = {
                 id: event.post.authorId,
                 name: postAuthor.username,
@@ -171,13 +179,15 @@ export async function getRecommendedPlaceholdersFromPostFlairUpdate (event: Post
                 url: postAuthor.url,
                 snoovatarImage: await postAuthor.getSnoovatarUrl().catch(() => "") ?? "",
                 iconImage: await postAuthor.getSnoovatarUrl().catch(() => "") ?? "",
+                description: "",
+                suspended: false,
             };
-        } catch (error) {
+        } catch {
             // This mostly handles shadowbanned, deleted, or suspended users.
 
             targetUser = {
                 id: event.post.authorId,
-                name: await getUsernameFromUserId(reddit, event.post.authorId), // This function will extract the username from the exception if possible.
+                name: "[deleted]", // This function will extract the username from the exception if possible.
                 flair: event.post.authorFlair,
                 karma: event.post.score, // If we can't get the user's karma, this is the best guess we can make.
                 snoovatarImage: "",
@@ -186,6 +196,8 @@ export async function getRecommendedPlaceholdersFromPostFlairUpdate (event: Post
                 banned: false,
                 spam: true,
                 url: "",
+                description: "",
+                suspended: true,
             };
 
             if (targetUser.name) {

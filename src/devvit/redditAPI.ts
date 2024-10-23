@@ -198,27 +198,6 @@ export async function setLockByPostId (reddit: RedditAPIClient, postId: string, 
     return post;
 }
 
-/**
- * This function lets you get a username from a user ID, it saves you from having to fetch the user first on your own. It also works if the user is shadowbanned.
- * @param reddit An instance of RedditAPIClient, such as context.reddit from inside most Devvit event handlers.
- * @param userId A user ID, should look like t2_abc123.
- * @returns The username of the user (no prefix).
- */
-export async function getUsernameFromUserId (reddit: RedditAPIClient, userId: string): Promise<string> {
-    try {
-        const user = await reddit.getUserById(userId);
-        return user.username;
-    } catch (e) {
-        // Expected error example:
-        // Error: Get "https://oauth.reddit.com/user/shadowbanned1234/about?raw_json=1": httpbp.ClientError: http status 404 Not Found: {"message": "Not Found", "error": 404}
-        const match = String(e).match(/(?<=reddit\.com\/user\/)[a-zA-Z0-9_-]{3,30}(?=\/about)/);
-        if (match) {
-            return match[0];
-        }
-        return "";
-    }
-}
-
 export type HasPermissionsOptions = {
     subredditName: string,
     username: string,
@@ -237,6 +216,9 @@ export async function hasPermissions (reddit: RedditAPIClient, options: HasPermi
     const {subredditName, username} = options;
     const requiredPerms = valueToArrayOrUndefined<ModeratorPermission>(options.requiredPerms);
     const user = await reddit.getUserByUsername(username);
+    if (!user) {
+        return false;
+    }
     const actualPerms = await user.getModPermissionsForSubreddit(subredditName);
     if (actualPerms.includes("all")) {
         return true;

@@ -5,6 +5,7 @@
         "node_modules",
         "tests",
         "dist",
+        "eslint.config.mjs"
     ],
     "compilerOptions": {
         "rootDir": "src",
