@@ -2,71 +2,18 @@ import {ModMail} from "@devvit/protos";
 import {ConversationData, GetConversationsRequest, MessageData, ModMailService} from "@devvit/public-api";
 
 /**
- * Sort by:
- * - `recent` - Order by whenever anyone last updated the conversation, mod or participant
- * - `mod` - Order by the last time a mod updated the conversation
- * - `user` - Order by the last time a participant user updated the conversation
- * - `unread` - Order by the most recent unread message in the conversation for this mod
- */
-export type ConversationSort = "recent" | "mod" | "user" | "unread";
-
-/**
- * Gets the date that should be used for sorting a conversation based on the specified sort order.
- * @param conversation A conversation object
- * @param sort ModMail sort order to use
- * @param defaultDate Used if the relevant date is undefined
- * @returns The date to use for sorting this conversation
- */
-export function getConversationSortDate (conversation: ConversationData, sort: ConversationSort, defaultDate: string | number | Date = 0): Date {
-    switch (sort) {
-    case "recent":
-        return new Date(conversation.lastUpdated ?? defaultDate);
-    case "mod":
-        return new Date(conversation.lastModUpdate ?? defaultDate);
-    case "user":
-        return new Date(conversation.lastUserUpdate ?? defaultDate);
-    case "unread":
-        return new Date(conversation.lastUnread ?? defaultDate);
-    }
-}
-
-/**
- * This function compares two ConversationData objects based on the specified sort order.
- * @param a ConversationData object
- * @param b ConversationData object
- * @param sort ModMail sort order to use
- * @returns Negative if A is older than B, positive if A is newer than B, and 0 if they are the same
- */
-export function compareConversations (a: ConversationData, b: ConversationData, sort: ConversationSort): number {
-    const aDate = getConversationSortDate(a, sort);
-    const bDate = getConversationSortDate(b, sort);
-    return aDate.getTime() - bDate.getTime();
-}
-
-/**
- * This function returns the last conversation in an unsorted list of conversations based on the specified sort order.
- * @param conversations List of conversations
- * @param sort ModMail sort order to use
- * @returns The conversation that is the oldest based on the specified sort order or undefined if the list is empty
- */
-export function getLastConversation (conversations: ConversationData[], sort: ConversationSort): ConversationData | undefined {
-    let oldest;
-    for (const current of conversations) {
-        if (!oldest || compareConversations(current, oldest, sort) < 0) {
-            oldest = current;
-        }
-    }
-    return oldest;
-}
-
-/**
  * This function sorts an array of conversations based on the specified sort order.
  * @param conversations
  * @param sort ModMail sort order to use
  * @returns Conversations sorted by the specified sort order, most recent first
  */
-export function sortConversations (conversations: ConversationData[], sort: ConversationSort): ConversationData[] {
-    return conversations.sort((a, b) => compareConversations(a, b, sort));
+export function sortConversations (conversations: ConversationData[], sortOrder: string[]): ConversationData[] {
+    // Sort conversations based on the position of their IDs in the sortOrder array
+    return conversations.sort((a, b) => {
+        const aIndex = sortOrder.indexOf(a.id ?? "");
+        const bIndex = sortOrder.indexOf(b.id ?? "");
+        return aIndex - bIndex;
+    });
 }
 
 /**
@@ -96,7 +43,7 @@ export async function getModmailConversations (modmail: ModMailService, options:
     // If the limit is less than or equal to 100, we don't have to worry about pagination
     if (options.limit <= 100) {
         const response = await modmail.getConversations(options);
-        return sortConversations(Object.values(response.conversations), options.sort);
+        return sortConversations(Object.values(response.conversations), response.conversationIds);
     }
 
     // If the limit is greater than 100, we need to paginate and handle potential duplicates
@@ -111,11 +58,11 @@ export async function getModmailConversations (modmail: ModMailService, options:
             // there may be a small chance of duplicates due to pagination, so we'll filter them out
             const newConversations = sortConversations(
                 Object.values(response.conversations).filter(conversation => conversation.id && !seenConversationIds.has(conversation.id)),
-                options.sort
+                response.conversationIds
             );
 
             // If there are no new conversations, we've reached the end
-            if (newConversations.length === 0) {
+            if (response.conversationIds.length === 0) {
                 break;
             }
 
@@ -132,7 +79,7 @@ export async function getModmailConversations (modmail: ModMailService, options:
                 break;
             }
 
-            const newAfter = newConversations[newConversations.length - 1].id;
+            const newAfter = response.conversationIds[response.conversationIds.length - 1];
             if (newAfter === after) {
                 // This seems like an unlikely scenario,
                 // but if the ID of the new last conversation is the same as the previous last conversation,
