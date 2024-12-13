@@ -22,7 +22,7 @@ export function domainFromUrlString (url: string, defaultValue = ""): string {
         } else {
             return defaultValue;
         }
-    } catch (error) {
+    } catch {
         return defaultValue;
     }
 }
