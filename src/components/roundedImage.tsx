@@ -15,7 +15,7 @@ export type RoundedImageProps = Omit<Devvit.Blocks.ImageProps, "resizeMode"> & {
  * @param props {@link RoundedImageProps} Modified version of {@linkcode Devvit.Blocks.ImageProps} that allows for a `cornerRadius` at the expense of fewer `resizeMode` options.
  * @returns {JSX.Element} Uses a {@linkcode Devvit.Blocks.IntrinsicElements.zstack} with a {@linkcode Devvit.Blocks.IntrinsicElements.image} as the child.
  */
-export const RoundedImage = (props: RoundedImageProps) => (
+export const RoundedImage = (props: RoundedImageProps): JSX.Element => (
     <zstack width={props.imageWidth} height={props.imageHeight} cornerRadius={props.cornerRadius} alignment="center middle">
         <image {...props} resizeMode={props.resizeMode ?? "cover"}/>
     </zstack>
