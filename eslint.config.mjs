@@ -105,6 +105,7 @@ export default [{
 
         "no-extra-parens": ["error", "all", {
             conditionalAssign: false,
+            ignoreJSX: "multi-line",
         }],
 
         "no-multiple-empty-lines": ["error", {
