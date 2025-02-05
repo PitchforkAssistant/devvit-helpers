@@ -12,7 +12,7 @@ export function toNumberOrDefault (input: unknown, defaultValue: number): number
     try {
         const value = Number(input);
         return isNaN(value) ? defaultValue : value;
-    } catch (error) {
+    } catch {
         return defaultValue;
     }
 }
@@ -26,7 +26,7 @@ export function toNumberOrDefault (input: unknown, defaultValue: number): number
 export function toStringOrDefault (input: unknown, defaultValue = ""): string {
     try {
         return String(input);
-    } catch (error) {
+    } catch {
         return defaultValue;
     }
 }

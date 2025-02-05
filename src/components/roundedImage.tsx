@@ -26,17 +26,17 @@ export type RoundedImageProps = Omit<Devvit.Blocks.ImageProps, "resizeMode"> & {
  */
 export const RoundedImage = (props: RoundedImageProps): JSX.Element => (
     <zstack
-        width={props.imageWidth}
-        height={props.imageHeight}
+        alignment="center middle"
+        backgroundColor={props.backgroundColor}
         border={props.border}
         borderColor={props.borderColor}
-        lightBorderColor={props.lightBorderColor}
-        darkBorderColor={props.darkBorderColor}
         cornerRadius={props.cornerRadius}
-        backgroundColor={props.backgroundColor}
         darkBackgroundColor={props.darkBackgroundColor}
+        darkBorderColor={props.darkBorderColor}
+        height={props.imageHeight}
         lightBackgroundColor={props.lightBackgroundColor}
-        alignment="center middle"
+        lightBorderColor={props.lightBorderColor}
+        width={props.imageWidth}
     >
         <image {...props} resizeMode={props.resizeMode ?? "cover"} />
         {props.children ? props.children : null}

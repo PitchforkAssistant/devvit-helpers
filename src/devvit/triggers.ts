@@ -3,8 +3,9 @@
  */
 
 import {TriggerContext, TriggerEvent, TriggerEventType} from "@devvit/public-api";
-import {printEach} from "../index.js";
 import {chunk} from "lodash";
+
+import {printEach} from "../index.js";
 
 /**
  * This function is intended to take any trigger event and log all of it to the console. Useful for seeing what each event returns.

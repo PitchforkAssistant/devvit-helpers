@@ -2,7 +2,8 @@
  * @file This file contains helper functions to simplify common tasks that involving Devvit's RedditAPIClient.
  */
 
-import {ModActionType, RedditAPIClient, Comment, Post, ModAction, ModeratorPermission} from "@devvit/public-api";
+import {Comment, ModAction, ModActionType, ModeratorPermission, Post, RedditAPIClient} from "@devvit/public-api";
+
 import {valueToArrayOrUndefined} from "../misc/converters.js";
 
 export type GetModerationLogOptions = {

@@ -5,6 +5,7 @@ import path from "node:path";
 import {fileURLToPath} from "node:url";
 import js from "@eslint/js";
 import {FlatCompat} from "@eslint/eslintrc";
+import perfectionist from "eslint-plugin-perfectionist";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +27,7 @@ export default [{
     plugins: {
         "@typescript-eslint": typescriptEslint,
         vitest,
+        perfectionist,
     },
 
     languageOptions: {
@@ -164,6 +166,53 @@ export default [{
 
         "camelcase": ["error", {
             properties: "always",
+        }],
+        "perfectionist/sort-jsx-props": ["error",
+            {
+                type: "alphabetical",
+                order: "asc",
+                ignoreCase: true,
+            }],
+
+        "perfectionist/sort-classes": ["error",
+            {
+                type: "alphabetical",
+                order: "asc",
+                ignoreCase: true,
+                specialCharacters: "keep",
+                partitionByComment: true,
+                partitionByNewLine: false,
+                newlinesBetween: "always",
+                groups: [
+                    'index-signature',
+                    'static-property',
+                    'static-block',
+                    ['protected-property', 'protected-accessor-property'],
+                    ['private-property', 'private-accessor-property'],
+                    ['property', 'accessor-property'],
+                    'constructor',
+                    'static-method',
+                    'protected-method',
+                    'private-method',
+                    ['get-method', 'set-method'],
+                    'method',
+                    'function-property',
+                    'unknown',
+                  ]
+            }
+        ],
+
+        "perfectionist/sort-imports": ["error", {
+            "partitionByComment": true,
+        }],
+        "perfectionist/sort-exports": ["error", {
+            "partitionByComment": true,
+        }],
+        "perfectionist/sort-named-imports": ["error", {
+            "partitionByComment": true,
+        }],
+        "perfectionist/sort-named-exports": ["error", {
+            "partitionByComment": true,
         }],
     },
 }];
