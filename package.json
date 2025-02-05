@@ -31,6 +31,11 @@
         "typescript": "^5.7.3",
         "vitest": "^3.0.5"
     },
+    "peerDependencies": {
+        "@devvit/protos": "0.11.6",
+        "@devvit/public-api": "0.11.6",
+        "@devvit/shared-types": "0.11.6"
+    },
     "publishConfig": {
         "directory": "dist"
     },
