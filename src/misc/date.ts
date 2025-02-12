@@ -43,7 +43,7 @@ export function isCustomDateformat (input: unknown): input is CustomDateformat {
 export function safeFormatInTimeZone (datetime: Date, customDateformat: CustomDateformat, defaultValue = ""): string {
     try {
         return formatInTimeZone(datetime, customDateformat.timezone, customDateformat.dateformat, {locale: customDateformat.locale});
-    } catch (e) {
+    } catch {
         return defaultValue;
     }
 }

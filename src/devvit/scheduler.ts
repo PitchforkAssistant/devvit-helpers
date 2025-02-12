@@ -2,7 +2,7 @@
  * @file This file contains helper functions that for the Devvit scheduler.
  */
 
-import {Data, Scheduler} from "@devvit/public-api";
+import {JSONObject, Scheduler} from "@devvit/public-api";
 
 /**
  * This function lets you cancel all existing instances of a job.
@@ -28,7 +28,7 @@ export async function cancelExistingJobs (scheduler: Scheduler, jobName: string)
  * @param data The data to pass to the job, it can be any object.
  * @returns The ID of the job that was started.
  */
-export async function startSingletonJob (scheduler: Scheduler, jobName: string, cronSchedule: string, data?: Data): Promise<string> {
+export async function startSingletonJob (scheduler: Scheduler, jobName: string, cronSchedule: string, data?: JSONObject): Promise<string> {
     // Cancel existing instances of the job.
     await cancelExistingJobs(scheduler, jobName);
 

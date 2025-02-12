@@ -2,7 +2,7 @@
  * @file This file contains functions to validate certain Devvit settings fields.
  */
 
-import {Context, SettingsFormFieldValidatorEvent, OnValidateHandler} from "@devvit/public-api";
+import {Context, OnValidateHandler, SettingsFormFieldValidatorEvent} from "@devvit/public-api";
 
 /**
  * This function lets you chain multiple validators together.
