@@ -69,7 +69,7 @@ export async function getRawSubredditData (subredditName: string, metadata: prot
 }
 
 /**
- * This function calls the SubredditAbout function under Devvit.redditAPIPlugins.LinksAndComments.Vote.
+ * This function calls the Vote function under Devvit.redditAPIPlugins.LinksAndComments.
  * @param id Thing ID to cast a vote on
  * @param dir Direction of vote, 1 for upvote, 0 for no vote, -1 for downvote.
  * @param metadata Metadata, usually just context.debug.metadata
