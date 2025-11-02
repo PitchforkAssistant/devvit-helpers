@@ -9,7 +9,7 @@ import {PostV2} from "@devvit/protos/types/devvit/reddit/v2alpha/postv2.js";
 import {SubredditV2} from "@devvit/protos/types/devvit/reddit/v2alpha/subredditv2.js";
 import {UserV2} from "@devvit/protos/types/devvit/reddit/v2alpha/userv2.js";
 import {Post, RedditAPIClient} from "@devvit/public-api";
-import {isT3} from "@devvit/shared-types/tid.js";
+import {isLinkId} from "@devvit/public-api/types/tid.js";
 
 import {isBanned} from "../devvit/redditAPI.js";
 import {CustomDateformat, safeFormatInTimeZone} from "../misc/date.js";
@@ -62,8 +62,8 @@ export const RecommendedPlaceholderGettersFromModPostAction: PlaceholderGetters<
     "{{body}}": async action => action.targetPost.selftext ?? "",
     "{{title}}": async action => action.targetPost.title ?? "",
     "{{kind}}": async () => "submission",
-    "{{permalink}}": async action => isT3(action.targetPost.id) ? `https://redd.it/${action.targetPost.id.substring(3)}` : "",
-    "{{url}}": async action => isT3(action.targetPost.id) ? `https://redd.it/${action.targetPost.id.substring(3)}` : "",
+    "{{permalink}}": async action => isLinkId(action.targetPost.id) ? `https://redd.it/${action.targetPost.id.substring(3)}` : "",
+    "{{url}}": async action => isLinkId(action.targetPost.id) ? `https://redd.it/${action.targetPost.id.substring(3)}` : "",
     "{{link}}": async action => action.targetPost.url ?? "",
     "{{domain}}": async action => domainFromUrlString(action.targetPost.url ?? ""),
     "{{author_id}}": async action => action.targetUser.id?.substring(3) ?? "",
