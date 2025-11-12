@@ -4,8 +4,8 @@
 
 import {RedisFieldValue} from "@devvit/protos";
 import {RedisClient, ZMember, ZRangeOptions} from "@devvit/public-api";
-import { differenceInSeconds } from "date-fns";
-import { chunk } from "lodash";
+import {differenceInSeconds} from "date-fns";
+import {chunk} from "lodash";
 
 /**
  * Scans a sorted set in Redis and returns all members that match a given pattern. This function handles partial results and does multiple zScan calls if needed.
@@ -113,7 +113,7 @@ export async function zRangeAsRecord (redis: RedisClient, key: string, start: nu
     const results: Record<string, number> = {};
     const items = await redis.zRange(key, start, stop, options);
 
-    items.forEach((item) => {
+    items.forEach(item => {
         results[item.member] = item.score;
     });
 
