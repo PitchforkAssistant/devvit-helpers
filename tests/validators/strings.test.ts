@@ -1,5 +1,5 @@
 import {ERRORS} from "../../src/constants/errors.js";
-import {validateUsernameList, validateUsername, validateSubredditName, validateSubredditNameList} from "../../src/validators/strings.js";
+import {validateSubredditName, validateSubredditNameList, validateUsername, validateUsernameList} from "../../src/validators/strings.js";
 
 describe("validateUsernameList", () => {
     test.each([

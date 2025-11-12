@@ -1,5 +1,5 @@
 import {ERRORS} from "../../src/constants/errors.js";
-import {validateFinite, validateInteger, validateNegative, validateNonZero, validateNumber, validatePositiveInteger, validatePositive, validatePositiveNumber} from "../../src/validators/numbers.js";
+import {validateFinite, validateInteger, validateNegative, validateNonZero, validateNumber, validatePositive, validatePositiveInteger, validatePositiveNumber} from "../../src/validators/numbers.js";
 
 describe("validatePositiveInteger", () => {
     test.each([

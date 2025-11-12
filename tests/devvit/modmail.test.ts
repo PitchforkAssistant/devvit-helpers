@@ -1,6 +1,7 @@
-import {ConversationData, MessageData} from "@devvit/public-api";
-import {ModmailConversationPermalink, ModmailMessagePermalink, getModmailPermalink, sortConversations} from "../../src/devvit/modmail.js";
 import {ModMail} from "@devvit/protos";
+import {ConversationData, MessageData} from "@devvit/public-api";
+
+import {getModmailPermalink, ModmailConversationPermalink, ModmailMessagePermalink, sortConversations} from "../../src/devvit/modmail.js";
 
 const oldestConversation: ConversationData = {lastUpdated: new Date("2000-01-01").toISOString(), id: "1", authors: [], messages: {}, modActions: {}};
 const olderConversation: ConversationData = {lastUpdated: new Date("2010-01-01").toISOString(), id: "2", authors: [], messages: {}, modActions: {}};
