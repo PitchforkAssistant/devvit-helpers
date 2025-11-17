@@ -26,7 +26,7 @@
         "eslint-plugin-perfectionist": "^4.15.1",
         "eslint-plugin-vitest": "^0.5.4",
         "typescript": "^5.9.3",
-        "vitest": "^4.0.8"
+        "vitest": "^4.0.9"
     },
     "publishConfig": {
         "directory": "dist"
@@ -59,8 +59,8 @@
         "devvit"
     ],
     "peerDependencies": {
-        "@devvit/protos": "0.12.1",
-        "@devvit/public-api": "0.12.1",
-        "@devvit/shared-types": "0.12.1"
+        "@devvit/protos": "0.12.2",
+        "@devvit/public-api": "0.12.2",
+        "@devvit/shared-types": "0.12.2"
     }
 }
