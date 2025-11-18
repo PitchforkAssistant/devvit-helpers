@@ -20,13 +20,13 @@
     },
     "devDependencies": {
         "@types/lodash": "^4.17.20",
-        "@typescript-eslint/eslint-plugin": "^8.46.4",
-        "@typescript-eslint/parser": "^8.46.4",
+        "@typescript-eslint/eslint-plugin": "^8.47.0",
+        "@typescript-eslint/parser": "^8.47.0",
         "eslint": "^9.39.1",
         "eslint-plugin-perfectionist": "^4.15.1",
         "eslint-plugin-vitest": "^0.5.4",
         "typescript": "^5.9.3",
-        "vitest": "^4.0.9"
+        "vitest": "^4.0.10"
     },
     "publishConfig": {
         "directory": "dist"
@@ -59,8 +59,8 @@
         "devvit"
     ],
     "peerDependencies": {
-        "@devvit/protos": "0.12.2",
-        "@devvit/public-api": "0.12.2",
-        "@devvit/shared-types": "0.12.2"
+        "@devvit/protos": "0.12.3",
+        "@devvit/public-api": "0.12.3",
+        "@devvit/shared-types": "0.12.3"
     }
 }
