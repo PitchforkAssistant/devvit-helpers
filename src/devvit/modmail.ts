@@ -102,8 +102,7 @@ export async function getModmailConversations (modmail: ModMailService, options:
     return conversations;
 }
 
-export type ModmailConversationPermalink = `https://mod.reddit.com/mail/perma/${string}`;
-export type ModmailMessagePermalink = `https://mod.reddit.com/mail/perma/${string}/${string}`;
+export type ModmailPermalink = `https://mod.reddit.com/mail/perma/${string}`;
 
 /**
  * This function creates a permalink to a modmail conversation or message.
@@ -111,7 +110,7 @@ export type ModmailMessagePermalink = `https://mod.reddit.com/mail/perma/${strin
  * @param message Message ID, MessageData object, or undefined. If undefined, the permalink will point to the conversation, unless the conversation object is the ModMail event object
  * @returns Permalink to the conversation or message, or undefined if at least the conversation ID is not found
  */
-export function getModmailPermalink (conversation: string | ConversationData | ModMail, message?: string | MessageData): ModmailConversationPermalink | ModmailMessagePermalink | undefined {
+export function getModmailPermalink (conversation: string | ConversationData | ModMail, message?: string | MessageData): ModmailPermalink | undefined {
     let conversationId = "";
     let messageId = "";
 
