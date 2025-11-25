@@ -1,7 +1,7 @@
 import {ModMail} from "@devvit/protos";
 import {ConversationData, MessageData} from "@devvit/public-api";
 
-import {getModmailPermalink, ModmailConversationPermalink, ModmailMessagePermalink, sortConversations} from "../../src/devvit/modmail.js";
+import {getModmailPermalink, ModmailPermalink, sortConversations} from "../../src/devvit/modmail.js";
 
 const oldestConversation: ConversationData = {lastUpdated: new Date("2000-01-01").toISOString(), id: "1", authors: [], messages: {}, modActions: {}};
 const olderConversation: ConversationData = {lastUpdated: new Date("2010-01-01").toISOString(), id: "2", authors: [], messages: {}, modActions: {}};
@@ -20,8 +20,8 @@ describe("sortConversations", () => {
 });
 
 describe("getModmailPermalink", () => {
-    const convoUrl: ModmailConversationPermalink = "https://mod.reddit.com/mail/perma/convoId";
-    const messageUrl: ModmailMessagePermalink = "https://mod.reddit.com/mail/perma/convoId/messageId";
+    const convoUrl: ModmailPermalink = "https://mod.reddit.com/mail/perma/convoId";
+    const messageUrl: ModmailPermalink = "https://mod.reddit.com/mail/perma/convoId/messageId";
 
     it("should return the correct permalink with strings", () => {
         expect(getModmailPermalink("convoId", "messageId")).toBe(messageUrl);
