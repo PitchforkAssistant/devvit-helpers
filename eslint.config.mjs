@@ -1,31 +1,19 @@
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import vitest from "eslint-plugin-vitest";
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+import vitest from "@vitest/eslint-plugin"
 import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import {fileURLToPath} from "node:url";
 import js from "@eslint/js";
-import {FlatCompat} from "@eslint/eslintrc";
 import perfectionist from "eslint-plugin-perfectionist";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all,
-});
 
 export default [{
     ignores: ["**/node_modules", "**/dist", "eslint.config.mjs", "eslint.config.d.mts"],
-}, ...compat.extends(
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:@typescript-eslint/strict",
-), {
+},
+js.configs.recommended,
+eslint.configs.recommended,
+...tseslint.configs.recommendedTypeChecked,
+...tseslint.configs.strict,
+{
     plugins: {
-        "@typescript-eslint": typescriptEslint,
         vitest,
         perfectionist,
     },
@@ -37,7 +25,7 @@ export default [{
 
         parserOptions: {
             project: true,
-            tsconfigRootDir: __dirname,
+            tsconfigRootDir: import.meta.dirname,
         },
     },
 
@@ -198,7 +186,7 @@ export default [{
                     'method',
                     'function-property',
                     'unknown',
-                  ]
+                ]
             }
         ],
 
