@@ -3,7 +3,7 @@
  */
 
 import {TriggerContext, TriggerEvent, TriggerEventType} from "@devvit/public-api";
-import {chunk} from "lodash";
+import {chunk} from "lodash-es";
 
 import {printEach} from "../index.js";
 

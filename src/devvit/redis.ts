@@ -5,7 +5,7 @@
 import {RedisFieldValue} from "@devvit/protos";
 import {RedisClient, ZMember, ZRangeOptions} from "@devvit/public-api";
 import {differenceInSeconds} from "date-fns";
-import {chunk} from "lodash";
+import {chunk} from "lodash-es";
 
 /**
  * Scans a sorted set in Redis and returns all members that match a given pattern. This function handles partial results and does multiple zScan calls if needed.

@@ -16,10 +16,10 @@
     "dependencies": {
         "date-fns": "^3.6.0",
         "date-fns-tz": "^3.1.3",
-        "lodash": "^4.17.21"
+        "lodash-es": "^4.17.21"
     },
     "devDependencies": {
-        "@types/lodash": "^4.17.20",
+        "@types/lodash-es": "^4.17.12",
         "@typescript-eslint/eslint-plugin": "^8.48.0",
         "@typescript-eslint/parser": "^8.48.0",
         "eslint": "^9.39.1",
