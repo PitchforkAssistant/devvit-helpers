@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.8.3",
+    "version": "0.8.4",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
@@ -21,13 +21,13 @@
     "devDependencies": {
         "@eslint/js": "^9.39.1",
         "@types/lodash-es": "^4.17.12",
-        "@typescript-eslint/parser": "^8.48.0",
-        "@vitest/eslint-plugin": "^1.5.0",
+        "@typescript-eslint/parser": "^8.48.1",
+        "@vitest/eslint-plugin": "^1.5.1",
         "eslint": "^9.39.1",
         "eslint-plugin-perfectionist": "^4.15.1",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.48.0",
-        "vitest": "^4.0.14"
+        "typescript-eslint": "^8.48.1",
+        "vitest": "^4.0.15"
     },
     "publishConfig": {
         "directory": "dist"
@@ -60,8 +60,8 @@
         "devvit"
     ],
     "peerDependencies": {
-        "@devvit/protos": "0.12.4",
-        "@devvit/public-api": "0.12.4",
-        "@devvit/shared-types": "0.12.4"
+        "@devvit/protos": "0.12.5",
+        "@devvit/public-api": "0.12.5",
+        "@devvit/shared-types": "0.12.5"
     }
 }
