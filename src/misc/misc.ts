@@ -2,7 +2,7 @@
  * @file This file is home to a collection of miscellaneous helper functions.
  */
 
-import {chunk} from "lodash";
+import {chunk} from "lodash-es";
 
 /**
  * Get the hostname component of a string containing a URL, or return the default value if the string is not a valid URL.
