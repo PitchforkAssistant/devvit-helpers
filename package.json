@@ -16,18 +16,18 @@
     "dependencies": {
         "date-fns": "^4.1.0",
         "date-fns-tz": "^3.2.0",
-        "lodash-es": "^4.17.21"
+        "lodash-es": "^4.17.22"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.1",
+        "@eslint/js": "^9.39.2",
         "@types/lodash-es": "^4.17.12",
-        "@typescript-eslint/parser": "^8.48.1",
-        "@vitest/eslint-plugin": "^1.5.1",
-        "eslint": "^9.39.1",
+        "@typescript-eslint/parser": "^8.50.0",
+        "@vitest/eslint-plugin": "^1.5.2",
+        "eslint": "^9.39.2",
         "eslint-plugin-perfectionist": "^4.15.1",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.48.1",
-        "vitest": "^4.0.15"
+        "typescript-eslint": "^8.50.0",
+        "vitest": "^4.0.16"
     },
     "publishConfig": {
         "directory": "dist"
@@ -60,8 +60,8 @@
         "devvit"
     ],
     "peerDependencies": {
-        "@devvit/protos": "0.12.5",
-        "@devvit/public-api": "0.12.5",
-        "@devvit/shared-types": "0.12.5"
+        "@devvit/protos": "0.12.6",
+        "@devvit/public-api": "0.12.6",
+        "@devvit/shared-types": "0.12.6"
     }
 }
