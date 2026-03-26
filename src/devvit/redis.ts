@@ -89,7 +89,7 @@ export async function hMGetAsRecord (redis: RedisClient, key: string, fields: st
  * @param chunkSize The size of each chunk.
  * @returns {Record<string, string>} An object with field-value pairs for the specified fields.
  */
-export async function hMGetAllChunked (redis: RedisClient, key: string, chunkSize = 5000): Promise<Record<string, string>> {
+export async function hGetAllChunked (redis: RedisClient, key: string, chunkSize = 5000): Promise<Record<string, string>> {
     const fields = await redis.hKeys(key);
     if (fields.length === 0) {
         return {};
