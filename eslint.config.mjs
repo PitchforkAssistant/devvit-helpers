@@ -170,7 +170,7 @@ eslint.configs.recommended,
                 specialCharacters: "keep",
                 partitionByComment: true,
                 partitionByNewLine: false,
-                newlinesBetween: "always",
+                newlinesBetween: 1,
                 groups: [
                     'index-signature',
                     'static-property',
