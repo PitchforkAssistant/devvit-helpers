@@ -123,7 +123,7 @@ export async function getRecommendedPlaceholdersFromModAction (action: ModAction
     const dataSource: ObjectWithDateformatOptions<ModAction & ({targetPost: PostV2} | {targetComment: CommentV2})> = action;
     dataSource.customDateformat = customDateformat;
 
-    let placeholders = undefined;
+    let placeholders: Placeholder[];
     if (action.targetPost?.id) {
         placeholders = await getPlaceholdersFromGetters(RecommendedPlaceholderGettersFromModPostAction, action as Required<ModAction>);
     } else if (action.targetComment?.id) {
@@ -132,15 +132,11 @@ export async function getRecommendedPlaceholdersFromModAction (action: ModAction
         throw new Error("ModAction does not contain required targetPost or targetComment property.");
     }
 
-    if (!placeholders) {
-        throw new Error("Placeholder retrieval failed.");
-    } else {
-        if (dataSource.moderator?.name) {
-            // Add the moderator name to the beginning of the list of placeholders, so that it is the first placeholder to be replaced.
-            placeholders.unshift({placeholder: "{{mod}}", value: dataSource.moderator.name});
-        }
-        return placeholders;
+    if (dataSource.moderator?.name) {
+        // Add the moderator name to the beginning of the list of placeholders, so that it is the first placeholder to be replaced.
+        placeholders.unshift({placeholder: "{{mod}}", value: dataSource.moderator.name});
     }
+    return placeholders;
 }
 
 /**

@@ -74,6 +74,7 @@ export function getLocaleFromString (input: string | string[]): Locale | undefin
 
     const locale = Object.keys(locales).find(key => key.toLowerCase() === processedInput);
     if (locale) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         return locales[locale as keyof object] as Locale;
     }
 }

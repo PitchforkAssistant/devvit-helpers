@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
@@ -14,20 +14,20 @@
         "prepare": "npm run build"
     },
     "dependencies": {
-        "date-fns": "^4.1.0",
+        "date-fns": "^4.4.0",
         "date-fns-tz": "^3.2.0",
-        "lodash-es": "^4.17.23"
+        "lodash-es": "^4.18.1"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.2",
+        "@eslint/js": "^10.0.1",
         "@types/lodash-es": "^4.17.12",
-        "@typescript-eslint/parser": "^8.53.1",
-        "@vitest/eslint-plugin": "^1.6.6",
-        "eslint": "^9.39.2",
-        "eslint-plugin-perfectionist": "^4.15.1",
-        "typescript": "^5.9.3",
-        "typescript-eslint": "^8.53.1",
-        "vitest": "^4.0.18"
+        "@typescript-eslint/parser": "^8.60.0",
+        "@vitest/eslint-plugin": "^1.6.18",
+        "eslint": "^10.4.1",
+        "eslint-plugin-perfectionist": "^5.9.0",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.60.0",
+        "vitest": "^4.1.7"
     },
     "repository": {
         "type": "git",
@@ -57,8 +57,8 @@
         "devvit"
     ],
     "peerDependencies": {
-        "@devvit/protos": "^0.12.7",
-        "@devvit/public-api": "^0.12.7",
-        "@devvit/shared-types": "^0.12.7"
+        "@devvit/protos": "^0.13.0",
+        "@devvit/public-api": "^0.13.0",
+        "@devvit/shared-types": "^0.13.0"
     }
 }

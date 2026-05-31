@@ -3,18 +3,18 @@ import {UserAboutResponse} from "@devvit/protos/types/devvit/plugin/redditapi/us
 import {Devvit, UserSocialLink} from "@devvit/public-api";
 
 export type RedditAPIPlugins = {
-    NewModmail: protos.NewModmail;
-    Widgets: protos.Widgets;
-    ModNote: protos.ModNote;
-    LinksAndComments: protos.LinksAndComments;
-    Moderation: protos.Moderation;
-    GraphQL: protos.GraphQL;
-    Listings: protos.Listings;
     Flair: protos.Flair;
-    Wiki: protos.Wiki;
-    Users: protos.Users;
+    GraphQL: protos.GraphQL;
+    LinksAndComments: protos.LinksAndComments;
+    Listings: protos.Listings;
+    Moderation: protos.Moderation;
+    ModNote: protos.ModNote;
+    NewModmail: protos.NewModmail;
     PrivateMessages: protos.PrivateMessages;
     Subreddits: protos.Subreddits;
+    Users: protos.Users;
+    Widgets: protos.Widgets;
+    Wiki: protos.Wiki;
 }
 
 /**
@@ -22,13 +22,13 @@ export type RedditAPIPlugins = {
  */
 export type ExtendedDevvit = typeof Devvit & {
     redditAPIPlugins: RedditAPIPlugins
-    modLogPlugin: protos.Modlog
     schedulerPlugin: protos.Scheduler
     kvStorePlugin: protos.KVStore
     redisPlugin: protos.RedisAPI
     mediaPlugin: protos.MediaService
     settingsPlugin: protos.Settings
     realtimePlugin: protos.Realtime
+    userActionsPlugin: protos.UserActions
 };
 
 /**
@@ -107,4 +107,14 @@ export async function getUserSocialLinks (username: string, metadata: protos.Met
         ...link,
         handle: link.handle ?? undefined,
     }));
+}
+
+/**
+ * Calls the Filter function under Devvit.redditAPIPlugins.Moderation, which is in Webbit, but hasn't been added to the Singleton yet.
+ * @param filterRequest {protos.FilterRequest} Object containing the id and optionally reason and keep properties.
+ * @param metadata Metadata, usually just context.debug.metadata
+ * @returns {protos.Empty} Empty response
+ */
+export async function filter (filterRequest: protos.FilterRequest, metadata?: protos.Metadata): Promise<protos.Empty> {
+    return getExtendedDevvit().redditAPIPlugins.Moderation.Filter(filterRequest, metadata);
 }

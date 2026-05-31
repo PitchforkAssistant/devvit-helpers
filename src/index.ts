@@ -1,4 +1,3 @@
-export * from "./components/roundedImage.js";
 export * from "./constants/locales.js";
 export * from "./devvit/modmail.js";
 export * from "./devvit/post.js";
