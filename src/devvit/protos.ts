@@ -108,3 +108,13 @@ export async function getUserSocialLinks (username: string, metadata: protos.Met
         handle: link.handle ?? undefined,
     }));
 }
+
+/**
+ * Calls the Filter function under Devvit.redditAPIPlugins.Moderation, which is in Webbit, but hasn't been added to the Singleton yet.
+ * @param filterRequest {protos.FilterRequest} Object containing the id and optionally reason and keep properties.
+ * @param metadata Metadata, usually just context.debug.metadata
+ * @returns {protos.Empty} Empty response
+ */
+export async function filter (filterRequest: protos.FilterRequest, metadata?: protos.Metadata): Promise<protos.Empty> {
+    return getExtendedDevvit().redditAPIPlugins.Moderation.Filter(filterRequest, metadata);
+}
