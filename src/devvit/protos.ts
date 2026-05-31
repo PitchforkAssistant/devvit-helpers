@@ -22,7 +22,6 @@ export type RedditAPIPlugins = {
  */
 export type ExtendedDevvit = typeof Devvit & {
     redditAPIPlugins: RedditAPIPlugins
-    modLogPlugin: protos.Modlog
     schedulerPlugin: protos.Scheduler
     kvStorePlugin: protos.KVStore
     redisPlugin: protos.RedisAPI
