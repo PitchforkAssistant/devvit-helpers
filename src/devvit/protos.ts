@@ -3,18 +3,18 @@ import {UserAboutResponse} from "@devvit/protos/types/devvit/plugin/redditapi/us
 import {Devvit, UserSocialLink} from "@devvit/public-api";
 
 export type RedditAPIPlugins = {
-    NewModmail: protos.NewModmail;
-    Widgets: protos.Widgets;
-    ModNote: protos.ModNote;
-    LinksAndComments: protos.LinksAndComments;
-    Moderation: protos.Moderation;
-    GraphQL: protos.GraphQL;
-    Listings: protos.Listings;
     Flair: protos.Flair;
-    Wiki: protos.Wiki;
-    Users: protos.Users;
+    GraphQL: protos.GraphQL;
+    LinksAndComments: protos.LinksAndComments;
+    Listings: protos.Listings;
+    Moderation: protos.Moderation;
+    ModNote: protos.ModNote;
+    NewModmail: protos.NewModmail;
     PrivateMessages: protos.PrivateMessages;
     Subreddits: protos.Subreddits;
+    Users: protos.Users;
+    Widgets: protos.Widgets;
+    Wiki: protos.Wiki;
 }
 
 /**
@@ -28,6 +28,7 @@ export type ExtendedDevvit = typeof Devvit & {
     mediaPlugin: protos.MediaService
     settingsPlugin: protos.Settings
     realtimePlugin: protos.Realtime
+    userActionsPlugin: protos.UserActions
 };
 
 /**
