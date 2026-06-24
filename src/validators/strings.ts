@@ -18,7 +18,7 @@ export async function validateUsernameList (
     errorMessage = ERRORS.USERNAMECSV_INVALID,
     errorMessagePrefix = ERRORS.USERNAMECSV_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
-    errorMessageTrailing = ERRORS.NO_TRAILING_COMMA
+    errorMessageTrailing = ERRORS.NO_TRAILING_COMMA,
 ): Promise<string | undefined> {
     const usernameCSVString = event.value?.toString() ?? "";
     if (!usernameCSVString) {
@@ -57,7 +57,7 @@ export async function validateSubredditNameList (
     errorMessage = ERRORS.SUBNAMECSV_INVALID,
     errorMessagePrefix = ERRORS.SUBNAMECSV_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
-    errorMessageTrailing = ERRORS.NO_TRAILING_COMMA
+    errorMessageTrailing = ERRORS.NO_TRAILING_COMMA,
 ): Promise<string | undefined> {
     const subredditNameCSVString = event.value?.toString() ?? "";
     if (!subredditNameCSVString) {
@@ -94,7 +94,7 @@ export async function validateUsername (
     errorMessage = ERRORS.USERNAME_INVALID,
     errorMessagePrefix = ERRORS.USERNAME_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
-    errorMessageComma = ERRORS.NO_COMMA
+    errorMessageComma = ERRORS.NO_COMMA,
 ): Promise<string | undefined> {
     const usernameString = event.value?.toString() ?? "";
     if (!usernameString) {
@@ -131,7 +131,7 @@ export async function validateSubredditName (
     errorMessage = ERRORS.SUBNAME_INVALID,
     errorMessagePrefix = ERRORS.SUBNAME_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
-    errorMessageComma = ERRORS.NO_COMMA
+    errorMessageComma = ERRORS.NO_COMMA,
 ): Promise<string | undefined> {
     const subredditString = event.value?.toString() ?? "";
     if (!subredditString) {

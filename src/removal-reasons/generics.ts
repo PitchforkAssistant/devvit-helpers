@@ -5,23 +5,23 @@
 import {CustomDateformat} from "../misc/date.js";
 
 export type Placeholder = {
-    placeholder: string;
-    value: string;
-}
+    placeholder: string
+    value: string
+};
 
 /**
 * Always require body. Allow for the header and footer to be optional, but if they are present, joiner must also be present.
 */
 export type RemovalReasonTemplate = | {
-    body: string;
-    header?: never;
-    footer?: never;
+    body: string
+    header?: never
+    footer?: never
 } | {
-    body: string;
-    header?: string;
-    footer?: string;
-    joiner: string;
-}
+    body: string
+    header?: string
+    footer?: string
+    joiner: string
+};
 
 /**
  * This is the function that does the actual replacing of the placeholders, but it does no actual fetching of data.
@@ -89,7 +89,7 @@ export type TypeToStringAsync<T> = (arg: T) => Promise<string>;
  */
 export type PlaceholderGetters<PlaceholderKeys extends string, DataSource> = {
     [key in PlaceholderKeys]: DataSource extends object & {customDateformat?: CustomDateformat} ? TypeToStringAsync<DataSource & {customDateformat?: CustomDateformat}> : TypeToStringAsync<DataSource>;
-}
+};
 
 /**
  * This function takes a record of placeholder getters and a DataSource, and returns a list of placeholders with their values.

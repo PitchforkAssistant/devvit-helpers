@@ -135,7 +135,7 @@ export default defineConfig([
             }],
             '@stylistic/padded-blocks': ['error', 'never'],
             '@stylistic/quote-props': ['error', 'consistent-as-needed'],
-            '@stylistic/quotes': ['error', 'single', {
+            '@stylistic/quotes': ['error', 'double', {
                 avoidEscape: true,
             }],
             '@stylistic/semi-style': ['error', 'last'],

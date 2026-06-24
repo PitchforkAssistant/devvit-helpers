@@ -7,12 +7,12 @@ import {Comment, ModAction, ModActionType, ModeratorPermission, Post, RedditAPIC
 import {valueToArrayOrUndefined} from "../misc/converters.js";
 
 export type GetModerationLogOptions = {
-    subredditName: string,
-    actionType?: ModActionType | ModActionType[],
-    moderators?: string | string[],
-    limit?: number,
-    sort?: boolean,
-}
+    subredditName: string
+    actionType?: ModActionType | ModActionType[]
+    moderators?: string | string[]
+    limit?: number
+    sort?: boolean
+};
 
 /**
  * This function lets you fetch the moderation log with multiple action types at once.
@@ -52,15 +52,15 @@ export async function getModerationLog (reddit: RedditAPIClient, options: GetMod
 }
 
 export type HasPerformedActionsOptions = {
-    subredditName: string,
-    actionTargetId: string,
-    actionTypes: ModActionType | ModActionType[],
-    moderators?: string | string[],
-    includeParent?: boolean,
-    newestCutoff?: Date,
-    oldestCutoff?: Date,
+    subredditName: string
+    actionTargetId: string
+    actionTypes: ModActionType | ModActionType[]
+    moderators?: string | string[]
+    includeParent?: boolean
+    newestCutoff?: Date
+    oldestCutoff?: Date
     limit?: number
-}
+};
 
 /**
  * This function lets you check if moderators have performed a specific action on something.
@@ -200,10 +200,10 @@ export async function setLockByPostId (reddit: RedditAPIClient, postId: string, 
 }
 
 export type HasPermissionsOptions = {
-    subredditName: string,
-    username: string,
+    subredditName: string
+    username: string
     requiredPerms?: ModeratorPermission | ModeratorPermission[]
-}
+};
 
 /**
  * This function lets you quickly check which permissions a user has on a subreddit with just the username and subreddit name.

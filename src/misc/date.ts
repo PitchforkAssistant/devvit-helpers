@@ -10,10 +10,10 @@ import * as locales from "date-fns/locale";
  * This type is used to specify a custom date format for a placeholder.
  */
 export type CustomDateformat = {
-    dateformat: string;
-    timezone: string;
-    locale: Locale;
-}
+    dateformat: string
+    timezone: string
+    locale: Locale
+};
 
 /**
  * This function checks whether an input is a CustomDateformat object.

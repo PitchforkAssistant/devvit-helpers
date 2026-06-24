@@ -58,7 +58,7 @@ export async function getModmailConversations (modmail: ModMailService, options:
             // there may be a small chance of duplicates due to pagination, so we'll filter them out
             const newConversations = sortConversations(
                 Object.values(response.conversations).filter(conversation => conversation.id && !seenConversationIds.has(conversation.id)),
-                response.conversationIds
+                response.conversationIds,
             );
 
             // If there are no new conversations, we've reached the end

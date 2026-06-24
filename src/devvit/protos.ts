@@ -3,19 +3,19 @@ import {UserAboutResponse} from "@devvit/protos/types/devvit/plugin/redditapi/us
 import {Devvit, UserSocialLink} from "@devvit/public-api";
 
 export type RedditAPIPlugins = {
-    Flair: protos.Flair;
-    GraphQL: protos.GraphQL;
-    LinksAndComments: protos.LinksAndComments;
-    Listings: protos.Listings;
-    Moderation: protos.Moderation;
-    ModNote: protos.ModNote;
-    NewModmail: protos.NewModmail;
-    PrivateMessages: protos.PrivateMessages;
-    Subreddits: protos.Subreddits;
-    Users: protos.Users;
-    Widgets: protos.Widgets;
-    Wiki: protos.Wiki;
-}
+    Flair: protos.Flair
+    GraphQL: protos.GraphQL
+    LinksAndComments: protos.LinksAndComments
+    Listings: protos.Listings
+    Moderation: protos.Moderation
+    ModNote: protos.ModNote
+    NewModmail: protos.NewModmail
+    PrivateMessages: protos.PrivateMessages
+    Subreddits: protos.Subreddits
+    Users: protos.Users
+    Widgets: protos.Widgets
+    Wiki: protos.Wiki
+};
 
 /**
  * This is an extended version of the Devvit type that includes some of the members that are not exposed by default.
@@ -79,7 +79,7 @@ export async function setVote (id: string, dir: 1 | 0 | -1, metadata: protos.Met
     return getExtendedDevvit().redditAPIPlugins.LinksAndComments.Vote({id, dir}, metadata);
 }
 
-type UserSocialLinkResponse = Omit<UserSocialLink, "handle"> & { handle: string | null };
+type UserSocialLinkResponse = Omit<UserSocialLink, "handle"> & {handle: string | null};
 
 /**
  * This function calls the GetUserSocialLinks persisted query under Devvit.redditAPIPlugins.GraphQL and returns the user's social links.
