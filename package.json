@@ -20,6 +20,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@stylistic/eslint-plugin": "^5.10.0",
         "@types/lodash-es": "^4.17.12",
         "@typescript-eslint/parser": "^8.60.0",
         "@vitest/eslint-plugin": "^1.6.18",
