@@ -7,8 +7,8 @@ describe("validatePositiveInteger", () => {
         5,
         10,
         999999,
-    ])("validatePositiveInteger(%s) should return undefined", async input => {
-        expect(await validatePositiveInteger({value: input, isEditing: false})).toBeUndefined();
+    ])("validatePositiveInteger(%s) should return undefined", input => {
+        expect(validatePositiveInteger({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -17,8 +17,8 @@ describe("validatePositiveInteger", () => {
         0,
         Infinity,
         NaN,
-    ])("validatePositiveInteger(%s) should return string", async input => {
-        expect(await validatePositiveInteger({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_POSITIVE_INTEGER);
+    ])("validatePositiveInteger(%s) should return string", input => {
+        expect(validatePositiveInteger({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_POSITIVE_INTEGER);
     });
 
     test.each([
@@ -27,8 +27,8 @@ describe("validatePositiveInteger", () => {
         0,
         Infinity,
         NaN,
-    ])("validatePositiveInteger(%s) should return string", async input => {
-        expect(await validatePositiveInteger({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validatePositiveInteger(%s) should return string", input => {
+        expect(validatePositiveInteger({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validatePositiveNumber", () => {
@@ -40,8 +40,8 @@ describe("validatePositiveNumber", () => {
         Infinity,
         Math.PI,
         Math.E,
-    ])("validatePositiveNumber(%s) should return undefined", async input => {
-        expect(await validatePositiveNumber({value: input, isEditing: false})).toBeUndefined();
+    ])("validatePositiveNumber(%s) should return undefined", input => {
+        expect(validatePositiveNumber({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -49,8 +49,8 @@ describe("validatePositiveNumber", () => {
         -3.41,
         0,
         NaN,
-    ])("validatePositiveNumber(%s) should return string", async input => {
-        expect(await validatePositiveNumber({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_POSITIVE);
+    ])("validatePositiveNumber(%s) should return string", input => {
+        expect(validatePositiveNumber({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_POSITIVE);
     });
 
     test.each([
@@ -58,8 +58,8 @@ describe("validatePositiveNumber", () => {
         -3.41,
         0,
         NaN,
-    ])("validatePositiveNumber(%s) should return string", async input => {
-        expect(await validatePositiveNumber({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validatePositiveNumber(%s) should return string", input => {
+        expect(validatePositiveNumber({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validatePositive", () => {
@@ -72,24 +72,24 @@ describe("validatePositive", () => {
         Infinity,
         Math.PI,
         Math.E,
-    ])("validatePositive(%s) should return undefined", async input => {
-        expect(await validatePositive({value: input, isEditing: false})).toBeUndefined();
+    ])("validatePositive(%s) should return undefined", input => {
+        expect(validatePositive({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
         -2,
         -3.41,
         NaN,
-    ])("validatePositive(%s) should return string", async input => {
-        expect(await validatePositive({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_POSITIVE);
+    ])("validatePositive(%s) should return string", input => {
+        expect(validatePositive({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_POSITIVE);
     });
 
     test.each([
         -2,
         -3.41,
         NaN,
-    ])("validatePositive(%s) should return string", async input => {
-        expect(await validatePositive({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validatePositive(%s) should return string", input => {
+        expect(validatePositive({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateNegative", () => {
@@ -103,8 +103,8 @@ describe("validateNegative", () => {
         Math.PI,
         Math.E,
         NaN,
-    ])("validateNegative(%s) should return string", async input => {
-        expect(await validateNegative({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_NEGATIVE);
+    ])("validateNegative(%s) should return string", input => {
+        expect(validateNegative({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_NEGATIVE);
     });
 
     test.each([
@@ -113,8 +113,8 @@ describe("validateNegative", () => {
         -Infinity,
         -Math.PI,
         -Math.E,
-    ])("validateNegative(%s) should return undefined", async input => {
-        expect(await validateNegative({value: input, isEditing: false})).toBeUndefined();
+    ])("validateNegative(%s) should return undefined", input => {
+        expect(validateNegative({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -127,8 +127,8 @@ describe("validateNegative", () => {
         Math.PI,
         Math.E,
         NaN,
-    ])("validateNegative(%s) should return string", async input => {
-        expect(await validateNegative({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateNegative(%s) should return string", input => {
+        expect(validateNegative({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateInteger", () => {
@@ -140,15 +140,15 @@ describe("validateInteger", () => {
         Math.PI,
         Math.E,
         NaN,
-    ])("validateInteger(%s) should return undefined", async input => {
-        expect(await validateInteger({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_INTEGER);
+    ])("validateInteger(%s) should return undefined", input => {
+        expect(validateInteger({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_INTEGER);
     });
 
     test.each([
         -2,
         3,
-    ])("validateInteger(%s) should return string", async input => {
-        expect(await validateInteger({value: input, isEditing: false})).toBeUndefined();
+    ])("validateInteger(%s) should return string", input => {
+        expect(validateInteger({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -159,16 +159,16 @@ describe("validateInteger", () => {
         Math.PI,
         Math.E,
         NaN,
-    ])("validateInteger(%s) should return string", async input => {
-        expect(await validateInteger({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateInteger(%s) should return string", input => {
+        expect(validateInteger({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateFinite", () => {
     test.each([
         Infinity,
         NaN,
-    ])("validateFinite(%s) should return string", async input => {
-        expect(await validateFinite({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_FINITE);
+    ])("validateFinite(%s) should return string", input => {
+        expect(validateFinite({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_FINITE);
     });
 
     test.each([
@@ -177,15 +177,15 @@ describe("validateFinite", () => {
         Math.PI,
         Math.E,
         999999.999999,
-    ])("validateFinite(%s) should return undefined", async input => {
-        expect(await validateFinite({value: input, isEditing: false})).toBeUndefined();
+    ])("validateFinite(%s) should return undefined", input => {
+        expect(validateFinite({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
         Infinity,
         NaN,
-    ])("validateFinite(%s) should return string", async input => {
-        expect(await validateFinite({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateFinite(%s) should return string", input => {
+        expect(validateFinite({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateNonZero", () => {
@@ -194,8 +194,8 @@ describe("validateNonZero", () => {
         -0,
         0,
         NaN,
-    ])("validateNonZero(%s) should return string", async input => {
-        expect(await validateNonZero({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_NONZERO);
+    ])("validateNonZero(%s) should return string", input => {
+        expect(validateNonZero({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_NONZERO);
     });
 
     test.each([
@@ -205,8 +205,8 @@ describe("validateNonZero", () => {
         Math.E,
         Infinity,
         999999.999999,
-    ])("validateNonZero(%s) should return undefined", async input => {
-        expect(await validateNonZero({value: input, isEditing: false})).toBeUndefined();
+    ])("validateNonZero(%s) should return undefined", input => {
+        expect(validateNonZero({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -214,15 +214,15 @@ describe("validateNonZero", () => {
         -0,
         0,
         NaN,
-    ])("validateNonZero(%s) should return string", async input => {
-        expect(await validateNonZero({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateNonZero(%s) should return string", input => {
+        expect(validateNonZero({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateNumber", () => {
     test.each([
         NaN,
-    ])("validateNumber(%s) should return string", async input => {
-        expect(await validateNumber({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_NUMBER);
+    ])("validateNumber(%s) should return string", input => {
+        expect(validateNumber({value: input, isEditing: false})).toEqual<string>(ERRORS.NOT_NUMBER);
     });
 
     test.each([
@@ -232,13 +232,13 @@ describe("validateNumber", () => {
         Math.E,
         Infinity,
         999999.999999,
-    ])("validateNumber(%s) should return undefined", async input => {
-        expect(await validateNumber({value: input, isEditing: false})).toBeUndefined();
+    ])("validateNumber(%s) should return undefined", input => {
+        expect(validateNumber({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
         NaN,
-    ])("validateNumber(%s) should return string", async input => {
-        expect(await validateNumber({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateNumber(%s) should return string", input => {
+        expect(validateNumber({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });

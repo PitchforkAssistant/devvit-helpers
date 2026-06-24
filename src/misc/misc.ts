@@ -32,7 +32,7 @@ export function domainFromUrlString (url: string, defaultValue = ""): string {
  * @param func The function to use for printing each item in the array, such as console.log or console.error.
  * @param array The array of items to print.
  */
-export function printEach (func: (message: unknown) => void, array: unknown[]) {
+export function printEach (func: (message: unknown) => void, array: unknown[]): void {
     for (const item of array) {
         func(item);
     }

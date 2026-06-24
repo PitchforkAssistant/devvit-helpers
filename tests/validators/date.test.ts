@@ -11,8 +11,8 @@ describe("validateCustomDateformat", () => {
         "HH:mm",
         " ",
         "yyyy",
-    ])("validateCustomDateformat(%s) should return undefined", async input => {
-        expect(await validateCustomDateformat({value: input, isEditing: false})).toBeUndefined();
+    ])("validateCustomDateformat(%s) should return undefined", input => {
+        expect(validateCustomDateformat({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -21,15 +21,15 @@ describe("validateCustomDateformat", () => {
         "qwerty",
         "",
         undefined,
-    ])("validateCustomDateformat(%s) should return string", async input => {
-        expect(await validateCustomDateformat({value: input, isEditing: false})).toEqual(ERRORS.INVALID_TIMEFORMAT);
+    ])("validateCustomDateformat(%s) should return string", input => {
+        expect(validateCustomDateformat({value: input, isEditing: false})).toEqual(ERRORS.INVALID_TIMEFORMAT);
     });
 
     test.each([
         "invalid format",
         undefined,
-    ])("validateCustomDateformat(%s) should return string", async input => {
-        expect(await validateCustomDateformat({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateCustomDateformat(%s) should return string", input => {
+        expect(validateCustomDateformat({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateCustomTimezone", () => {
@@ -39,22 +39,22 @@ describe("validateCustomTimezone", () => {
         "+00:15",
         "America/New_York",
         "Europe/London",
-    ])("validateCustomTimezone(%s) should return undefined", async input => {
-        expect(await validateCustomTimezone({value: input, isEditing: false})).toBeUndefined();
+    ])("validateCustomTimezone(%s) should return undefined", input => {
+        expect(validateCustomTimezone({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
         "00:00",
         "0",
-    ])("validateCustomTimezone(%s) should return string", async input => {
-        expect(await validateCustomTimezone({value: input, isEditing: false})).toEqual<string>(ERRORS.INVALID_TIMEZONE);
+    ])("validateCustomTimezone(%s) should return string", input => {
+        expect(validateCustomTimezone({value: input, isEditing: false})).toEqual<string>(ERRORS.INVALID_TIMEZONE);
     });
 
     test.each([
         "00:00",
         "0",
-    ])("validateCustomTimezone(%s) should return string", async input => {
-        expect(await validateCustomTimezone({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateCustomTimezone(%s) should return string", input => {
+        expect(validateCustomTimezone({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 });
 describe("validateCustomLocale", () => {
@@ -63,8 +63,8 @@ describe("validateCustomLocale", () => {
         "enGB",
         "DE",
         ["DE"],
-    ])("validateCustomLocale(%s) should return undefined", async input => {
-        expect(await validateCustomLocale({value: input, isEditing: false})).toBeUndefined();
+    ])("validateCustomLocale(%s) should return undefined", input => {
+        expect(validateCustomLocale({value: input, isEditing: false})).toBeUndefined();
     });
 
     test.each([
@@ -72,19 +72,19 @@ describe("validateCustomLocale", () => {
         "aww",
         ["tifu"],
         ["aww", "tifu"],
-    ])("validateCustomLocale(%s) should return string", async input => {
-        expect(await validateCustomLocale({value: input, isEditing: false})).toEqual<string>(ERRORS.INVALID_LOCALE);
+    ])("validateCustomLocale(%s) should return string", input => {
+        expect(validateCustomLocale({value: input, isEditing: false})).toEqual<string>(ERRORS.INVALID_LOCALE);
     });
 
     test.each([
         "_lib",
         "aww",
         ["aww", "tifu"],
-    ])("validateCustomLocale(%s) should return string", async input => {
-        expect(await validateCustomLocale({value: input, isEditing: false}, undefined, "test")).toEqual("test");
+    ])("validateCustomLocale(%s) should return string", input => {
+        expect(validateCustomLocale({value: input, isEditing: false}, undefined, "test")).toEqual("test");
     });
 
-    test.each([...LOCALE_OPTIONS])("validateCustomLocale(%s) should validate with all LOCALE_OPTIONS", async input => {
-        expect(await validateCustomLocale({...input, isEditing: false})).toBeUndefined();
+    test.each([...LOCALE_OPTIONS])("validateCustomLocale(%s) should validate with all LOCALE_OPTIONS", input => {
+        expect(validateCustomLocale({...input, isEditing: false})).toBeUndefined();
     });
 });

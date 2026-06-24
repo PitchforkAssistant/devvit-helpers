@@ -12,7 +12,7 @@ import {printEach} from "../index.js";
  * @param event A TriggerEvent object
  * @param context A TriggerContext object
  */
-export async function onAnyTriggerConsoleLog (event: Partial<TriggerEventType[TriggerEvent]>, context: TriggerContext) {
+export function onAnyTriggerConsoleLog (event: Partial<TriggerEventType[TriggerEvent]>, context: TriggerContext): void {
     if (event.type) { // No longer present for singular event types :/
         console.log(`type: ${event.type}`);
     }

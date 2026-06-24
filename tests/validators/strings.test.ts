@@ -7,8 +7,8 @@ describe("validateUsernameList", () => {
         "/username",
         "/u/sername1,/u/username2,u/username3",
         "/u/username1, /u/username2, /u/username3,",
-    ])("validateUsernameList(%s) should return prefixed error", async input => {
-        expect(await validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAMECSV_PREFIXED);
+    ])("validateUsernameList(%s) should return prefixed error", input => {
+        expect(validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAMECSV_PREFIXED);
     });
 
     test.each([
@@ -16,15 +16,15 @@ describe("validateUsernameList", () => {
         " username,username2,username3",
         "username1,PitchforkAssistant-ModTeam, username2,username3",
         "username1, username2, username3,",
-    ])("validateUsernameList(%s) should return space error", async input => {
-        expect(await validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
+    ])("validateUsernameList(%s) should return space error", input => {
+        expect(validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
     });
 
     test.each([
         "username1,PitchforkAssistant-ModTeam,username2,username3,",
         "username1,username2,username3,",
-    ])("validateUsernameList(%s) should return trailing comma error", async input => {
-        expect(await validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_TRAILING_COMMA);
+    ])("validateUsernameList(%s) should return trailing comma error", input => {
+        expect(validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_TRAILING_COMMA);
     });
 
     test.each([
@@ -32,16 +32,16 @@ describe("validateUsernameList", () => {
         "username1,username2,username3,questionmark?inuser",
         "username1,🦥,username3,questionmark?inuser",
         "username1,x,xistooshort",
-    ])("validateUsernameList(%s) should return general error", async input => {
-        expect(await validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAMECSV_INVALID);
+    ])("validateUsernameList(%s) should return general error", input => {
+        expect(validateUsernameList({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAMECSV_INVALID);
     });
 
     test.each([
         "reddit,PitchforkAssistant-ModTeam,AutoModerator,PitchforkAssistant",
         "spez",
         "",
-    ])("validateUsernameList(%s) should return undefined", async input => {
-        expect(await validateUsernameList({value: input, isEditing: false})).toBeUndefined();
+    ])("validateUsernameList(%s) should return undefined", input => {
+        expect(validateUsernameList({value: input, isEditing: false})).toBeUndefined();
     });
 });
 
@@ -51,8 +51,8 @@ describe("validateUsername", () => {
         "u/username",
         "/u/sername1,/u/username2,u/username3",
         "/u/username1, /u/username2, /u/username3,",
-    ])("validateUsername(%s) should return prefixed error", async input => {
-        expect(await validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAME_PREFIXED);
+    ])("validateUsername(%s) should return prefixed error", input => {
+        expect(validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAME_PREFIXED);
     });
 
     test.each([
@@ -60,15 +60,15 @@ describe("validateUsername", () => {
         " username",
         "username1,PitchforkAssistant-ModTeam, username2,username3",
         "username1, username2, username3,",
-    ])("validateUsername(%s) should return space error", async input => {
-        expect(await validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
+    ])("validateUsername(%s) should return space error", input => {
+        expect(validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
     });
 
     test.each([
         "username1,PitchforkAssistant-ModTeam,username2,username3",
         "username1,username2,username3",
-    ])("validateUsername(%s) should return comma error", async input => {
-        expect(await validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_COMMA);
+    ])("validateUsername(%s) should return comma error", input => {
+        expect(validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_COMMA);
     });
 
     test.each([
@@ -76,8 +76,8 @@ describe("validateUsername", () => {
         "questionmark?inuser",
         "🦥",
         "x",
-    ])("validateUsername(%s) should return general error", async input => {
-        expect(await validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAME_INVALID);
+    ])("validateUsername(%s) should return general error", input => {
+        expect(validateUsername({value: input, isEditing: false})).toEqual<string>(ERRORS.USERNAME_INVALID);
     });
 
     test.each([
@@ -87,8 +87,8 @@ describe("validateUsername", () => {
         "AutoModerator",
         "u_PitchforkAssistant-ModTeam",
         "",
-    ])("validateUsername(%s) should return undefined", async input => {
-        expect(await validateUsername({value: input, isEditing: false})).toBeUndefined();
+    ])("validateUsername(%s) should return undefined", input => {
+        expect(validateUsername({value: input, isEditing: false})).toBeUndefined();
     });
 });
 
@@ -98,8 +98,8 @@ describe("validateSubredditNameList", () => {
         "/subname",
         "/u/sername1,/u/subname2,u/subname3",
         "/u/subname1, /u/subname2, /u/subname3,",
-    ])("validateSubredditNameList(%s) should return prefixed error", async input => {
-        expect(await validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAMECSV_PREFIXED);
+    ])("validateSubredditNameList(%s) should return prefixed error", input => {
+        expect(validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAMECSV_PREFIXED);
     });
 
     test.each([
@@ -107,15 +107,15 @@ describe("validateSubredditNameList", () => {
         " subname,subname2,subname3",
         "subname1,PitchforkAssistant-ModTeam, subname2,subname3",
         "subname1, subname2, subname3,",
-    ])("validateSubredditNameList(%s) should return space error", async input => {
-        expect(await validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
+    ])("validateSubredditNameList(%s) should return space error", input => {
+        expect(validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
     });
 
     test.each([
         "subname1,PitchforkAssistant-ModTeam,subname2,subname3,",
         "subname1,subname2,subname3,",
-    ])("validateSubredditNameList(%s) should return trailing comma error", async input => {
-        expect(await validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_TRAILING_COMMA);
+    ])("validateSubredditNameList(%s) should return trailing comma error", input => {
+        expect(validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_TRAILING_COMMA);
     });
 
     test.each([
@@ -123,8 +123,8 @@ describe("validateSubredditNameList", () => {
         "subname1,subname2,subname3,questionmark?insub",
         "subname1,🦥,subname3",
         "subname1,x,xistooshort",
-    ])("validateSubredditNameList(%s) should return general error", async input => {
-        expect(await validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAMECSV_INVALID);
+    ])("validateSubredditNameList(%s) should return general error", input => {
+        expect(validateSubredditNameList({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAMECSV_INVALID);
     });
 
     test.each([
@@ -132,8 +132,8 @@ describe("validateSubredditNameList", () => {
         "wsb",
         "all,u_TwentyCharacterUName",
         "",
-    ])("validateSubredditNameList(%s) should return undefined", async input => {
-        expect(await validateSubredditNameList({value: input, isEditing: false})).toBeUndefined();
+    ])("validateSubredditNameList(%s) should return undefined", input => {
+        expect(validateSubredditNameList({value: input, isEditing: false})).toBeUndefined();
     });
 });
 
@@ -143,8 +143,8 @@ describe("validateSubredditName", () => {
         "r/subname",
         "/r/subname1,/r/subname2,r/subname3",
         "/r/subname1, /r/subname2, /r/subname3,",
-    ])("validateSubredditName(%s) should return prefixed error", async input => {
-        expect(await validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAME_PREFIXED);
+    ])("validateSubredditName(%s) should return prefixed error", input => {
+        expect(validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAME_PREFIXED);
     });
 
     test.each([
@@ -152,15 +152,15 @@ describe("validateSubredditName", () => {
         " subname",
         "subname1,PitchforkAssistantTooLongName, subname2,subname3",
         "subname1, subname2, subname3,",
-    ])("validateSubredditName(%s) should return space error", async input => {
-        expect(await validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
+    ])("validateSubredditName(%s) should return space error", input => {
+        expect(validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_SPACES);
     });
 
     test.each([
         "subname1,PitchforkAssistant-ModTeam,subname2,subname3",
         "subname1,subname2,subname3",
-    ])("validateSubredditName(%s) should return comma error", async input => {
-        expect(await validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_COMMA);
+    ])("validateSubredditName(%s) should return comma error", input => {
+        expect(validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.NO_COMMA);
     });
 
     test.each([
@@ -168,8 +168,8 @@ describe("validateSubredditName", () => {
         "questionmark?inname",
         "🦥",
         "x",
-    ])("validateSubredditName(%s) should return general error", async input => {
-        expect(await validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAME_INVALID);
+    ])("validateSubredditName(%s) should return general error", input => {
+        expect(validateSubredditName({value: input, isEditing: false})).toEqual<string>(ERRORS.SUBNAME_INVALID);
     });
 
     test.each([
@@ -180,7 +180,7 @@ describe("validateSubredditName", () => {
         "all",
         "u_TwentyCharacterUName",
         "",
-    ])("validateSubredditName(%s) should return undefined", async input => {
-        expect(await validateSubredditName({value: input, isEditing: false})).toBeUndefined();
+    ])("validateSubredditName(%s) should return undefined", input => {
+        expect(validateSubredditName({value: input, isEditing: false})).toBeUndefined();
     });
 });

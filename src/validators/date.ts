@@ -13,7 +13,7 @@ import {getLocaleFromString, isCustomDateformat} from "../misc/date.js";
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateCustomDateformat (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_TIMEFORMAT): Promise<string | undefined> {
+export function validateCustomDateformat (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_TIMEFORMAT): string | undefined {
     if (!isCustomDateformat({dateformat: event.value?.toString() ?? "", timezone: "UTC", locale: enUS})) {
         return errorMessage;
     }
@@ -26,7 +26,7 @@ export async function validateCustomDateformat (event: SettingsFormFieldValidato
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateCustomTimezone (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_TIMEZONE): Promise<string | undefined> {
+export function validateCustomTimezone (event: SettingsFormFieldValidatorEvent<string>, _context?: Context, errorMessage = ERRORS.INVALID_TIMEZONE): string | undefined {
     if (isNaN(getTimezoneOffset(event?.value?.toString() ?? ""))) {
         return errorMessage;
     }
@@ -39,7 +39,7 @@ export async function validateCustomTimezone (event: SettingsFormFieldValidatorE
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateCustomLocale (event: SettingsFormFieldValidatorEvent<string | string[]>, _context?: Context, errorMessage = ERRORS.INVALID_LOCALE): Promise<string | undefined> {
+export function validateCustomLocale (event: SettingsFormFieldValidatorEvent<string | string[]>, _context?: Context, errorMessage = ERRORS.INVALID_LOCALE): string | undefined {
     if (!getLocaleFromString(event?.value?.toString() ?? "")) {
         return errorMessage;
     }

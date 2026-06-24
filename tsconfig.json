@@ -18,6 +18,6 @@
         "**/node_modules",
         "dist",
         "**/.*/",
-        "eslint.config.mjs"
+        "eslint.config.js"
     ]
 }

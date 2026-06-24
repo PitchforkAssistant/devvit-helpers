@@ -126,7 +126,7 @@ export async function zRangeAsRecord (redis: RedisClient, key: string, start: nu
  * @param key The redis key.
  * @param expireAt The expiration date.
  */
-export async function expireKeyAt (redis: RedisClient, key: string, expireAt: Date) {
+export async function expireKeyAt (redis: RedisClient, key: string, expireAt: Date): Promise<void> {
     const secondsUntil = differenceInSeconds(expireAt, new Date());
     if (secondsUntil > 0) {
         await redis.expire(key, secondsUntil);

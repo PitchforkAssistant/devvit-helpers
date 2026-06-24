@@ -13,13 +13,13 @@ import {ERRORS} from "../constants/errors.js";
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateUsernameList (
+export function validateUsernameList (
     event: SettingsFormFieldValidatorEvent<string>, _context?: Context,
     errorMessage = ERRORS.USERNAMECSV_INVALID,
     errorMessagePrefix = ERRORS.USERNAMECSV_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
     errorMessageTrailing = ERRORS.NO_TRAILING_COMMA,
-): Promise<string | undefined> {
+): string | undefined {
     const usernameCSVString = event.value?.toString() ?? "";
     if (!usernameCSVString) {
         return;
@@ -52,13 +52,13 @@ export async function validateUsernameList (
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateSubredditNameList (
+export function validateSubredditNameList (
     event: SettingsFormFieldValidatorEvent<string>, _context?: Context,
     errorMessage = ERRORS.SUBNAMECSV_INVALID,
     errorMessagePrefix = ERRORS.SUBNAMECSV_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
     errorMessageTrailing = ERRORS.NO_TRAILING_COMMA,
-): Promise<string | undefined> {
+): string | undefined {
     const subredditNameCSVString = event.value?.toString() ?? "";
     if (!subredditNameCSVString) {
         return;
@@ -89,13 +89,13 @@ export async function validateSubredditNameList (
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateUsername (
+export function validateUsername (
     event: SettingsFormFieldValidatorEvent<string>, _context?: Context,
     errorMessage = ERRORS.USERNAME_INVALID,
     errorMessagePrefix = ERRORS.USERNAME_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
     errorMessageComma = ERRORS.NO_COMMA,
-): Promise<string | undefined> {
+): string | undefined {
     const usernameString = event.value?.toString() ?? "";
     if (!usernameString) {
         return;
@@ -126,13 +126,13 @@ export async function validateUsername (
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateSubredditName (
+export function validateSubredditName (
     event: SettingsFormFieldValidatorEvent<string>, _context?: Context,
     errorMessage = ERRORS.SUBNAME_INVALID,
     errorMessagePrefix = ERRORS.SUBNAME_PREFIXED,
     errorMessageSpace = ERRORS.NO_SPACES,
     errorMessageComma = ERRORS.NO_COMMA,
-): Promise<string | undefined> {
+): string | undefined {
     const subredditString = event.value?.toString() ?? "";
     if (!subredditString) {
         return;

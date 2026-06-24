@@ -82,7 +82,7 @@ export function placeholdersFromRecord (record: Record<string, string>): Placeho
 /**
  * Async function that takes a value of type T and returns a string.
  */
-export type TypeToStringAsync<T> = (arg: T) => Promise<string>;
+export type TypeToStringAsync<T> = (arg: T) => Promise<string> | string;
 
 /**
  * Type that requires all keys of type PlaceholderKeys to be present, and functions to retrieve their values from the DataSource. Hints at adding a customDateformat property to the DataSource.

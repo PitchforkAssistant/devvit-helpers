@@ -11,7 +11,7 @@ import {ERRORS} from "../constants/errors.js";
  * @deprecated Consider using validateMultiple with validatePositive, validateInteger, and validateNonZero instead.
  */
 
-export async function validatePositiveInteger (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE_INTEGER): Promise<string | undefined> {
+export function validatePositiveInteger (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE_INTEGER): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || value <= 0 || !Number.isInteger(value)) {
         return errorMessage;
@@ -26,7 +26,7 @@ export async function validatePositiveInteger (event: SettingsFormFieldValidator
  * @deprecated Consider using validateMultiple with validatePositive and validateNonZero instead.
  */
 
-export async function validatePositiveNumber (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE): Promise<string | undefined> {
+export function validatePositiveNumber (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || value <= 0) {
         return errorMessage;
@@ -40,7 +40,7 @@ export async function validatePositiveNumber (event: SettingsFormFieldValidatorE
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validatePositive (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE): Promise<string | undefined> {
+export function validatePositive (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_POSITIVE): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || value < 0) {
         return errorMessage;
@@ -54,7 +54,7 @@ export async function validatePositive (event: SettingsFormFieldValidatorEvent<n
  * @returns
  */
 
-export async function validateNegative (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_NEGATIVE): Promise<string | undefined> {
+export function validateNegative (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_NEGATIVE): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || value >= 0) {
         return errorMessage;
@@ -68,7 +68,7 @@ export async function validateNegative (event: SettingsFormFieldValidatorEvent<n
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateInteger (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_INTEGER): Promise<string | undefined> {
+export function validateInteger (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_INTEGER): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || !Number.isInteger(value)) {
         return errorMessage;
@@ -82,7 +82,7 @@ export async function validateInteger (event: SettingsFormFieldValidatorEvent<nu
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateNonZero (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_NONZERO): Promise<string | undefined> {
+export function validateNonZero (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_NONZERO): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || value === 0) {
         return errorMessage;
@@ -96,7 +96,7 @@ export async function validateNonZero (event: SettingsFormFieldValidatorEvent<nu
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateFinite (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_FINITE): Promise<string | undefined> {
+export function validateFinite (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_FINITE): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value) || !Number.isFinite(value)) {
         return errorMessage;
@@ -110,7 +110,7 @@ export async function validateFinite (event: SettingsFormFieldValidatorEvent<num
  * @returns The error message if the validation fails, or undefined if it passes.
  */
 
-export async function validateNumber (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_NUMBER): Promise<string | undefined> {
+export function validateNumber (event: SettingsFormFieldValidatorEvent<number>, _context?: Context, errorMessage = ERRORS.NOT_NUMBER): string | undefined {
     const value = Number(event?.value);
     if (isNaN(value)) {
         return errorMessage;

@@ -39,7 +39,7 @@ describe("getLocaleFromString", () => {
         expect(getLocaleFromString(input)).toEqual(expected);
     });
 
-    test.each([...LOCALE_OPTIONS])("getLocaleFromString(%s) should be defined with all LOCALE_OPTIONS", async input => {
+    test.each([...LOCALE_OPTIONS])("getLocaleFromString(%s) should be defined with all LOCALE_OPTIONS", input => {
         expect(getLocaleFromString(input.value)).toBeDefined();
     });
 });
