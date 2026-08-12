@@ -1,6 +1,6 @@
 {
     "name": "devvit-helpers",
-    "version": "0.10.0",
+    "version": "0.11.0",
     "license": "LGPL-3.0-or-later",
     "type": "module",
     "main": "./dist/index.js",
@@ -57,8 +57,7 @@
         "devvit"
     ],
     "peerDependencies": {
-        "@devvit/protos": "^0.13.0",
-        "@devvit/public-api": "^0.13.0",
-        "@devvit/shared-types": "^0.13.0"
+        "@devvit/protos": "^0.13.0 || ^0.14.0",
+        "@devvit/public-api": "^0.13.0 || ^0.14.0"
     }
 }
